@@ -41,32 +41,34 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'password', 'profile']
 
     def create(self, validated_data):
-        profile_data = validated_data.pop('profile', {})
-        
+        profile_data = validated_data.pop('profile', None) or {}
+
         # UserCreation
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email', ''),
             password=validated_data['password']
         )
-        
-        # Profile creat or update 
-        profile = user.profile  
-        
+
+        # Profile create or update
+        profile = user.profile
+
         # Role setting
-        if 'role' in profile_data and profile_data['role']:
-            profile.role = profile_data['role']
-        
-        # extract permission IDs and set them
-        if 'permissions' in profile_data:
-            profile.permissions.set(profile_data['permissions'])
-        
-        # other profile fields
-        if 'phone' in profile_data:
-            profile.phone = profile_data.get('phone', '')
-        if 'address' in profile_data:
-            profile.address = profile_data.get('address', '')
-        
+        if isinstance(profile_data, dict):
+            if profile_data.get('role'):
+                profile.role = profile_data['role']
+
+            # extract permission IDs and set them
+            permissions = profile_data.get('permissions')
+            if permissions:
+                profile.permissions.set(permissions)
+
+            # other profile fields
+            if profile_data.get('phone') is not None:
+                profile.phone = profile_data.get('phone', '')
+            if profile_data.get('address') is not None:
+                profile.address = profile_data.get('address', '')
+
         profile.save()
         return user
 
@@ -102,4 +104,4 @@ class LoginResponseSerializer(serializers.Serializer):
     username = serializers.CharField()
     email = serializers.EmailField()
     role = serializers.CharField(allow_null=True)
-    permissions = serializers.ListField(child=serializers.CharField())
+    permissions = serializers.ListField(child=serializers.CharField())

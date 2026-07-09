@@ -7,6 +7,8 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 # Importing models and serializers
 from .models import Profile, Role, Permission
@@ -37,6 +39,7 @@ from .permissions import (
 
 # User Registration Views
 
+@method_decorator(csrf_exempt, name='dispatch')
 class PublicRegistrationView(generics.CreateAPIView):
     """
     Registration for permitted users (admin/manager) where users get default Role: 'developer'
@@ -56,6 +59,7 @@ class PublicRegistrationView(generics.CreateAPIView):
             pass
         return user
 
+@method_decorator(csrf_exempt, name='dispatch')
 class AdminRegistrationView(generics.CreateAPIView):
     """
     Registration for Admin and Manager users to create new users and manually set Roles and Permissions
@@ -75,6 +79,7 @@ class AdminRegistrationView(generics.CreateAPIView):
 
 # user login view
 
+@method_decorator(csrf_exempt, name='dispatch')
 class CustomLoginView(APIView):
     """
     Logs in a user with a username and password and provides a token
@@ -143,7 +148,7 @@ class RoleViewSet(viewsets.ModelViewSet):
     """
     Role management - only Admin
     """
-    queryset = Role.objects.all()
+    queryset = Role.objects.all().order_by('id')
     serializer_class = RoleSerializer
     permission_classes = [IsAuthenticated, IsAdmin]  # ← এখানে IsAdmin ব্যবহার
 
@@ -151,7 +156,7 @@ class PermissionViewSet(viewsets.ModelViewSet):
     """
     Permission management - only Admin
     """
-    queryset = Permission.objects.all()
+    queryset = Permission.objects.all().order_by('id')
     serializer_class = PermissionSerializer
     permission_classes = [IsAuthenticated, IsAdmin]  # ← এখানে IsAdmin ব্যবহার
 

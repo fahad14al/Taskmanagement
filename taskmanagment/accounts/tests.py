@@ -88,13 +88,16 @@ class AccountEndpointTests(TestCase):
         token, _ = Token.objects.get_or_create(user=self.user)
         response = self.client.put(
             '/api/profile/update/',
-            {'phone': '1234567890', 'address': 'Dhaka'},
+            {'profile': {'phone': '1234567890', 'address': 'Dhaka'}},
             content_type='application/json',
             HTTP_AUTHORIZATION=f'Token {token.key}',
         )
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('username', response.json())
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.phone, '1234567890')
+        self.assertEqual(self.user.profile.address, 'Dhaka')
 
     # Endpoint: GET /api/roles/
     # Purpose: list roles; requires admin access

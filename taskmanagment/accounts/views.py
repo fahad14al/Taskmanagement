@@ -258,7 +258,7 @@ class TaskManagementView(APIView):
     def get(self, request):
         return Response({
             "message": "Task Management Dashboard",
-            "your_role": request.user.profile.role.name,
+            "your_role": request.user.profile.role.name if request.user.profile.role else None,
             "your_permissions": list(request.user.profile.permissions.values_list('name', flat=True))
         })
 
@@ -271,7 +271,7 @@ class ProjectManagementView(APIView):
     def get(self, request):
         return Response({
             "message": "Project Management Dashboard",
-            "your_role": request.user.profile.role.name
+            "your_role": request.user.profile.role.name if request.user.profile.role else None
         })
 
 class DeploymentView(APIView):
@@ -296,7 +296,7 @@ class ReportsView(APIView):
     def get(self, request):
         return Response({
             "message": "Reports Dashboard",
-            "your_role": request.user.profile.role.name,
+            "your_role": request.user.profile.role.name if request.user.profile.role else None,
             "reports": ["Report 1", "Report 2", "Report 3"]
         })
 
@@ -329,7 +329,8 @@ class UserDetailView(APIView):
     def put(self, request, user_id):
         user = get_object_or_404(User, id=user_id)
         # check if the user is the owner or an admin
-        if request.user.id != user.id and not request.user.profile.role.name == 'admin':
+        is_admin = request.user.profile.role and request.user.profile.role.name == 'admin'
+        if request.user.id != user.id and not is_admin:
             return Response(
                 {"error": "You are not the owner of this user profile or an admin"},
                 status=403

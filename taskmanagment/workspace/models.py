@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 # ========================================
 # ১. অর্গানাইজেশন (Organization)
@@ -456,7 +457,7 @@ class Attachment(models.Model):
     # Generic Foreign Key (যেকোনো মডেলের সাথে সংযুক্ত করা যাবে)
     content_type = models.ForeignKey('contenttypes.ContentType', on_delete=models.CASCADE, related_name='attachments')
     object_id = models.PositiveIntegerField()
-    content_object = models.ForeignKey('contenttypes.ContentType', on_delete=models.CASCADE, null=True, blank=True)
+    content_object = GenericForeignKey('content_type', 'object_id')
     
     # GenericForeignKey-র জন্য
     # থেকে: https://docs.djangoproject.com/en/stable/ref/contrib/contenttypes/

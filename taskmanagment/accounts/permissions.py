@@ -139,7 +139,7 @@ class IsAdminOrOwner(BasePermission):
     Checks if the user is either an admin or the owner of the object
     """
     def has_object_permission(self, request, view, obj):
-        if request.user.profile.role.name == 'admin':
+        if request.user.profile.role and request.user.profile.role.name == 'admin':
             return True
         if hasattr(obj, 'user'):
             return obj.user == request.user

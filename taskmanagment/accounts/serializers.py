@@ -86,6 +86,29 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email', 'profile']
 
+    def update(self, instance, validated_data):
+        profile_data = validated_data.pop('profile', None)
+        
+        # Update User fields
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.save()
+        
+        # Update Profile fields
+        if profile_data is not None:
+            profile = instance.profile
+            if 'phone' in profile_data:
+                profile.phone = profile_data.get('phone', profile.phone)
+            if 'address' in profile_data:
+                profile.address = profile_data.get('address', profile.address)
+            if 'role' in profile_data:
+                profile.role = profile_data.get('role', profile.role)
+            if 'permissions' in profile_data:
+                profile.permissions.set(profile_data.get('permissions', []))
+            profile.save()
+            
+        return instance
+
 
 # Serializer for login request
 class LoginRequestSerializer(serializers.Serializer):

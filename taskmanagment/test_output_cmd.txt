@@ -1,0 +1,440 @@
+Creating test database for alias 'default'...
+Found 52 test(s).
+System check identified some issues:
+
+WARNINGS:
+accounts.Permission: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounts.Profile: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounts.Role: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+accounts.RolePermission: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the AccountsConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+collaboration.ActivityLog: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CollaborationConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+collaboration.Comment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CollaborationConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+collaboration.Mention: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CollaborationConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+collaboration.Notification: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CollaborationConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+collaboration.Reaction: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CollaborationConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+communication.ChatRoom: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CommunicationConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+communication.ChatRoomMember: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CommunicationConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+communication.Message: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CommunicationConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+communication.MessageRead: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CommunicationConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+communication.Presence: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the CommunicationConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.Attachment: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.Checklist: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.ChecklistItem: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.Department: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.Organization: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.Project: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.ProjectMember: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.Sprint: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.SubTask: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.Task: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.Team: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.TeamMember: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+workspace.Ticket: (models.W042) Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+	HINT: Configure the DEFAULT_AUTO_FIELD setting or the WorkspaceConfig.default_auto_field attribute to point to a subclass of AutoField, e.g. 'django.db.models.BigAutoField'.
+
+System check identified 27 issues (0 silenced).
+FF...FFFFFF.....EEEEFFFFFF...FFFFF......FFFEF...E...
+======================================================================
+ERROR: test_is_owner_method (collaboration.tests.CommentModelTest.test_is_owner_method)
+is_owner \u09ae\u09c7\u09a5\u09a1 \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 118, in test_is_owner_method
+    self.assertTrue(comment.is_owner(self.user))
+                    ^^^^^^^^^^^^^^^^
+TypeError: Comment.is_owner() missing 1 required positional argument: 'user'
+
+======================================================================
+ERROR: test_comment_serializer_fields (collaboration.tests.CommentSerializerTest.test_comment_serializer_fields)
+Comment Serializer \u09ab\u09bf\u09b2\u09cd\u09a1 \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 454, in test_comment_serializer_fields
+    serializer = CommentSerializer(comment, context={'request': self.client._request})
+                                                                ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'APIClient' object has no attribute '_request'. Did you mean: 'request'?
+
+======================================================================
+ERROR: test_create_comment_serializer (collaboration.tests.CommentSerializerTest.test_create_comment_serializer)
+\u0995\u09ae\u09c7\u09a8\u09cd\u099f \u09a4\u09c8\u09b0\u09bf \u09b8\u09bf\u09b0\u09bf\u09af\u09bc\u09be\u09b2\u09be\u0987\u099c\u09be\u09b0 \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 420, in test_create_comment_serializer
+    context={'request': self.client._request}
+                        ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'APIClient' object has no attribute '_request'. Did you mean: 'request'?
+
+======================================================================
+ERROR: test_invalid_content_type (collaboration.tests.CommentSerializerTest.test_invalid_content_type)
+Invalid Content Type \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 438, in test_invalid_content_type
+    context={'request': self.client._request}
+                        ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'APIClient' object has no attribute '_request'. Did you mean: 'request'?
+
+======================================================================
+ERROR: test_reaction_stats (collaboration.tests.ReactionAPITest.test_reaction_stats)
+\u09b0\u09bf\u0985\u09cd\u09af\u09be\u0995\u09b6\u09a8 \u09aa\u09b0\u09bf\u09b8\u0982\u0996\u09cd\u09af\u09be\u09a8 API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: collaboration_reaction.content_type_id, collaboration_reaction.object_id, collaboration_reaction.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 777, in test_reaction_stats
+    Reaction.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        user=self.user,
+        ^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        object_id=self.user.id
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\models\base.py", line 909, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\models\base.py", line 1067, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\models\base.py", line 1108, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\models\sql\compiler.py", line 1823, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\djtaskmanagment\myenv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 329, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: collaboration_reaction.content_type_id, collaboration_reaction.object_id, collaboration_reaction.user_id
+
+======================================================================
+ERROR: test_reaction_serializer (collaboration.tests.ReactionSerializerTest.test_reaction_serializer)
+Reaction Serializer \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 532, in test_reaction_serializer
+    serializer = ReactionSerializer(self.reaction, context={'request': self.client._request})
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'APIClient' object has no attribute '_request'. Did you mean: 'request'?
+
+======================================================================
+FAIL: test_filter_by_action_type (collaboration.tests.ActivityLogAPITest.test_filter_by_action_type)
+\u0985\u09cd\u09af\u09be\u0995\u09cd\u099f\u09bf\u09ad\u09bf\u099f\u09bf \u09b2\u0997 \u09ab\u09bf\u09b2\u09cd\u099f\u09be\u09b0 API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 890, in test_filter_by_action_type
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_list_activity_logs (collaboration.tests.ActivityLogAPITest.test_list_activity_logs)
+\u0985\u09cd\u09af\u09be\u0995\u09cd\u099f\u09bf\u09ad\u09bf\u099f\u09bf \u09b2\u0997 \u09b2\u09bf\u09b8\u09cd\u099f API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 882, in test_list_activity_logs
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_create_comment (collaboration.tests.CommentAPITest.test_create_comment)
+\u0995\u09ae\u09c7\u09a8\u09cd\u099f \u09a4\u09c8\u09b0\u09bf API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 579, in test_create_comment
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 201
+
+======================================================================
+FAIL: test_delete_comment (collaboration.tests.CommentAPITest.test_delete_comment)
+\u0995\u09ae\u09c7\u09a8\u09cd\u099f \u09a1\u09bf\u09b2\u09bf\u099f API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 623, in test_delete_comment
+    self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 204
+
+======================================================================
+FAIL: test_list_comments (collaboration.tests.CommentAPITest.test_list_comments)
+\u0995\u09ae\u09c7\u09a8\u09cd\u099f \u09b2\u09bf\u09b8\u09cd\u099f API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 595, in test_list_comments
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_retrieve_comment (collaboration.tests.CommentAPITest.test_retrieve_comment)
+\u0995\u09ae\u09c7\u09a8\u09cd\u099f \u09b0\u09bf\u099f\u09cd\u09b0\u09bf\u09ad API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 603, in test_retrieve_comment
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_unauthenticated_comment_access (collaboration.tests.CommentAPITest.test_unauthenticated_comment_access)
+\u0985\u09a8\u09a8\u09c1\u09ae\u09cb\u09a6\u09bf\u09a4 \u0987\u0989\u099c\u09be\u09b0\u09c7\u09b0 \u0995\u09ae\u09c7\u09a8\u09cd\u099f \u0985\u09cd\u09af\u09be\u0995\u09cd\u09b8\u09c7\u09b8 \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 630, in test_unauthenticated_comment_access
+    self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 401
+
+======================================================================
+FAIL: test_update_comment (collaboration.tests.CommentAPITest.test_update_comment)
+\u0995\u09ae\u09c7\u09a8\u09cd\u099f \u0986\u09aa\u09a1\u09c7\u099f API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 614, in test_update_comment
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_full_comment_workflow (collaboration.tests.IntegrationTest.test_full_comment_workflow)
+\u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u0995\u09ae\u09c7\u09a8\u09cd\u099f \u0993\u09af\u09bc\u09be\u09b0\u09cd\u0995\u09ab\u09cd\u09b2\u09cb \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 984, in test_full_comment_workflow
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 201
+
+======================================================================
+FAIL: test_mention_creates_notification (collaboration.tests.IntegrationTest.test_mention_creates_notification)
+\u09ae\u09c7\u09a8\u09b6\u09a8 \u09a8\u09cb\u099f\u09bf\u09ab\u09bf\u0995\u09c7\u09b6\u09a8 \u09a4\u09c8\u09b0\u09bf \u0995\u09b0\u09c7 \u0995\u09bf\u09a8\u09be \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 1035, in test_mention_creates_notification
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 201
+
+======================================================================
+FAIL: test_notification_mark_read_workflow (collaboration.tests.IntegrationTest.test_notification_mark_read_workflow)
+\u09a8\u09cb\u099f\u09bf\u09ab\u09bf\u0995\u09c7\u09b6\u09a8 \u09b0\u09bf\u09a1 \u09ae\u09be\u09b0\u09cd\u0995 \u0993\u09af\u09bc\u09be\u09b0\u09cd\u0995\u09ab\u09cd\u09b2\u09cb \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 1059, in test_notification_mark_read_workflow
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_create_mention (collaboration.tests.MentionAPITest.test_create_mention)
+\u09ae\u09c7\u09a8\u09b6\u09a8 \u09a4\u09c8\u09b0\u09bf API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 836, in test_create_mention
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 201
+
+======================================================================
+FAIL: test_list_mentions (collaboration.tests.MentionAPITest.test_list_mentions)
+\u09ae\u09c7\u09a8\u09b6\u09a8 \u09b2\u09bf\u09b8\u09cd\u099f API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 843, in test_list_mentions
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_mark_mention_read (collaboration.tests.MentionAPITest.test_mark_mention_read)
+\u09ae\u09c7\u09a8\u09b6\u09a8 \u09b0\u09bf\u09a1 \u09ae\u09be\u09b0\u09cd\u0995 API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 851, in test_mark_mention_read
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_list_notifications (collaboration.tests.NotificationAPITest.test_list_notifications)
+\u09a8\u09cb\u099f\u09bf\u09ab\u09bf\u0995\u09c7\u09b6\u09a8 \u09b2\u09bf\u09b8\u09cd\u099f API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 661, in test_list_notifications
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_mark_notifications_read (collaboration.tests.NotificationAPITest.test_mark_notifications_read)
+\u09a8\u09cb\u099f\u09bf\u09ab\u09bf\u0995\u09c7\u09b6\u09a8 \u09b0\u09bf\u09a1 \u09ae\u09be\u09b0\u09cd\u0995 API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 684, in test_mark_notifications_read
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_mark_specific_notifications_read (collaboration.tests.NotificationAPITest.test_mark_specific_notifications_read)
+\u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f \u09a8\u09cb\u099f\u09bf\u09ab\u09bf\u0995\u09c7\u09b6\u09a8 \u09b0\u09bf\u09a1 \u09ae\u09be\u09b0\u09cd\u0995 API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 703, in test_mark_specific_notifications_read
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_retrieve_notification (collaboration.tests.NotificationAPITest.test_retrieve_notification)
+\u09a8\u09cb\u099f\u09bf\u09ab\u09bf\u0995\u09c7\u09b6\u09a8 \u09b0\u09bf\u099f\u09cd\u09b0\u09bf\u09ad API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 671, in test_retrieve_notification
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_unread_count (collaboration.tests.NotificationAPITest.test_unread_count)
+\u0986\u09a8\u09b0\u09bf\u09a1 \u09a8\u09cb\u099f\u09bf\u09ab\u09bf\u0995\u09c7\u09b6\u09a8 \u0995\u09be\u0989\u09a8\u09cd\u099f API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 711, in test_unread_count
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_create_reaction (collaboration.tests.ReactionAPITest.test_create_reaction)
+\u09b0\u09bf\u0985\u09cd\u09af\u09be\u0995\u09b6\u09a8 \u09a4\u09c8\u09b0\u09bf API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 748, in test_create_reaction
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 201
+
+======================================================================
+FAIL: test_delete_reaction (collaboration.tests.ReactionAPITest.test_delete_reaction)
+\u09b0\u09bf\u0985\u09cd\u09af\u09be\u0995\u09b6\u09a8 \u09a1\u09bf\u09b2\u09bf\u099f API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 795, in test_delete_reaction
+    self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 204
+
+======================================================================
+FAIL: test_list_reactions (collaboration.tests.ReactionAPITest.test_list_reactions)
+\u09b0\u09bf\u0985\u09cd\u09af\u09be\u0995\u09b6\u09a8 \u09b2\u09bf\u09b8\u09cd\u099f API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 769, in test_list_reactions
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 200
+
+======================================================================
+FAIL: test_update_reaction (collaboration.tests.ReactionAPITest.test_update_reaction)
+\u09b0\u09bf\u0985\u09cd\u09af\u09be\u0995\u09b6\u09a8 \u0986\u09aa\u09a1\u09c7\u099f API \u099f\u09c7\u09b8\u09cd\u099f
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\djtaskmanagment\taskmanagment\collaboration\tests.py", line 762, in test_update_reaction
+    self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 404 != 201
+
+----------------------------------------------------------------------
+Ran 52 tests in 45.739s
+
+FAILED (failures=23, errors=6)
+Destroying test database for alias 'default'...

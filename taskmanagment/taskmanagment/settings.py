@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     "collaboration",
     "communication",
     "analytics",
-    "common"
 ]
 
 MIDDLEWARE = [

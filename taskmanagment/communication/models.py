@@ -11,22 +11,22 @@ import uuid
 
 
 # ========================================
-# ১. ChatRoom মডেল
+# 1. ChatRoom Model
 # ========================================
 
 class ChatRoom(models.Model):
     """
-    চ্যাট রুম - ইউজারদের মধ্যে যোগাযোগের স্থান
+    Chat room for user communication
     """
     ROOM_TYPES = [
-        ('direct', 'Direct Message'),      # ১-১ চ্যাট
-        ('group', 'Group Chat'),           # গ্রুপ চ্যাট
-        ('project', 'Project Chat'),       # প্রজেক্ট-ভিত্তিক চ্যাট
-        ('team', 'Team Chat'),             # টিম-ভিত্তিক চ্যাট
-        ('channel', 'Channel'),            # পাবলিক চ্যানেল
+        ('direct', 'Direct Message'), # - 
+        ('group', 'Group Chat'), # 
+        ('project', 'Project Chat'), # - 
+        ('team', 'Team Chat'), # - 
+        ('channel', 'Channel'), # 
     ]
     
-    # মৌলিক তথ্য
+    # 
     room_type = models.CharField(
         max_length=20, 
         choices=ROOM_TYPES, 
@@ -45,7 +45,7 @@ class ChatRoom(models.Model):
         verbose_name="Description"
     )
     
-    # ইউনিক আইডি (URL-এ ব্যবহারের জন্য)
+    # Unique ID for URL usage
     room_id = models.CharField(
         max_length=50, 
         unique=True, 
@@ -55,7 +55,7 @@ class ChatRoom(models.Model):
         verbose_name="Room ID"
     )
     
-    # সম্পর্ক
+    # Relationships
     created_by = models.ForeignKey(
         User, 
         on_delete=models.SET_NULL, 
@@ -64,7 +64,7 @@ class ChatRoom(models.Model):
         verbose_name="Created By"
     )
     
-    # Generic Foreign Key - যেকোনো মডেলের সাথে সংযুক্ত (Project, Team, ইত্যাদি)
+    # Generic Foreign Key - (Project, Team, )
     content_type = models.ForeignKey(
         ContentType, 
         on_delete=models.CASCADE,
@@ -80,7 +80,7 @@ class ChatRoom(models.Model):
     )
     content_object = GenericForeignKey('content_type', 'object_id')
     
-    # সদস্য
+    # Members
     members = models.ManyToManyField(
         User, 
         through='ChatRoomMember',
@@ -89,7 +89,7 @@ class ChatRoom(models.Model):
         verbose_name="Members"
     )
     
-    # অ্যাডমিন (যারা রুম ম্যানেজ করতে পারে)
+    # Admins who can manage room
     admins = models.ManyToManyField(
         User, 
         related_name='admin_chat_rooms',
@@ -97,7 +97,7 @@ class ChatRoom(models.Model):
         verbose_name="Admins"
     )
     
-    # সেটিংস
+    # Settings
     is_private = models.BooleanField(
         default=False,
         verbose_name="Is Private"
@@ -111,7 +111,7 @@ class ChatRoom(models.Model):
         verbose_name="Is Archived"
     )
     
-    # অ্যাভাটার/আইকন
+    # Avatar icon
     avatar = models.ImageField(
         upload_to='chat/avatars/%Y/%m/',
         blank=True, 
@@ -119,7 +119,7 @@ class ChatRoom(models.Model):
         verbose_name="Avatar"
     )
     
-    # টাইমস্ট্যাম্প
+    # Timestamps
     created_at = models.DateTimeField(
         auto_now_add=True, 
         verbose_name="Created At"
@@ -154,17 +154,17 @@ class ChatRoom(models.Model):
         return f"{self.get_room_type_display()} Room {self.id}"
 
     def get_other_member(self, user):
-        """Direct চ্যাটে অন্য ইউজার রিটার্ন করে"""
+        """Returns other member in direct chat"""
         if self.room_type != 'direct':
             return None
         return self.members.exclude(id=user.id).first()
 
     def get_member_count(self):
-        """সদস্য সংখ্যা রিটার্ন করে"""
+        """Members """
         return self.members.count()
 
     def get_unread_count(self, user):
-        """একটি ইউজারের জন্য আনরিড মেসেজ কাউন্ট"""
+        """Unread message count for a user"""
         return MessageRead.objects.filter(
             message__chat_room=self,
             user=user,
@@ -172,17 +172,17 @@ class ChatRoom(models.Model):
         ).count()
 
     def get_last_message(self):
-        """সর্বশেষ মেসেজ রিটার্ন করে"""
+        """Returns last message"""
         return self.messages.order_by('-created_at').first()
 
 
 # ========================================
-# ২. ChatRoomMember মডেল (Intermediate Table)
+# 2. ChatRoomMember Model
 # ========================================
 
 class ChatRoomMember(models.Model):
     """
-    চ্যাট রুমের সদস্য - অতিরিক্ত তথ্য সহ
+      Members - 
     """
     ROLE_CHOICES = [
         ('admin', 'Admin'),
@@ -209,7 +209,7 @@ class ChatRoomMember(models.Model):
         verbose_name="Role"
     )
     
-    # নোটিফিকেশন সেটিংস
+    # Settings
     is_muted = models.BooleanField(
         default=False,
         verbose_name="Is Muted"
@@ -220,7 +220,7 @@ class ChatRoomMember(models.Model):
         verbose_name="Muted Until"
     )
     
-    # শেষ দেখা
+    # Last seen
     last_read_at = models.DateTimeField(
         null=True, 
         blank=True,
@@ -235,7 +235,7 @@ class ChatRoomMember(models.Model):
         verbose_name="Last Read Message"
     )
     
-    # জয়েন তথ্য
+    # Join info
     joined_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Joined At"
@@ -264,12 +264,12 @@ class ChatRoomMember(models.Model):
 
 
 # ========================================
-# ৩. Message মডেল
+# 3. Message Model
 # ========================================
 
 class Message(models.Model):
     """
-    মেসেজ - চ্যাট রুমে পাঠানো বার্তা
+    Messages sent in chat room
     """
     MESSAGE_TYPES = [
         ('text', 'Text'),
@@ -281,7 +281,7 @@ class Message(models.Model):
         ('notification', 'Notification'),
     ]
     
-    # ইউনিক আইডি
+    # 
     message_id = models.CharField(
         max_length=50, 
         unique=True, 
@@ -291,7 +291,7 @@ class Message(models.Model):
         verbose_name="Message ID"
     )
     
-    # সম্পর্ক
+    # Relationships
     chat_room = models.ForeignKey(
         ChatRoom, 
         on_delete=models.CASCADE,
@@ -305,7 +305,7 @@ class Message(models.Model):
         verbose_name="Sender"
     )
     
-    # প্যারেন্ট মেসেজ (রিপ্লাই/থ্রেডের জন্য)
+    # Parent message for replies or threads
     parent_message = models.ForeignKey(
         'self', 
         on_delete=models.CASCADE,
@@ -315,7 +315,7 @@ class Message(models.Model):
         verbose_name="Parent Message"
     )
     
-    # মেসেজ কন্টেন্ট
+    # Message content
     message_type = models.CharField(
         max_length=20, 
         choices=MESSAGE_TYPES, 
@@ -326,21 +326,21 @@ class Message(models.Model):
         verbose_name="Content"
     )
     
-    # অ্যাটাচমেন্ট (JSON ফরম্যাটে)
+    # Attachments in JSON format
     attachments = models.JSONField(
         default=list, 
         blank=True,
         verbose_name="Attachments"
     )
     
-    # মেটাডেটা (JSON)
+    # Metadata in JSON
     metadata = models.JSONField(
         default=dict, 
         blank=True,
         verbose_name="Metadata"
     )
     
-    # স্ট্যাটাস
+    # 
     is_edited = models.BooleanField(
         default=False,
         verbose_name="Is Edited"
@@ -358,7 +358,7 @@ class Message(models.Model):
         verbose_name="Is System Message"
     )
     
-    # ডেলিভারি স্ট্যাটাস
+    # Delivery status
     delivered_to = models.ManyToManyField(
         User, 
         related_name='delivered_messages',
@@ -366,7 +366,7 @@ class Message(models.Model):
         verbose_name="Delivered To"
     )
     
-    # টাইমস্ট্যাম্প
+    # Timestamps
     created_at = models.DateTimeField(
         auto_now_add=True, 
         verbose_name="Created At"
@@ -397,31 +397,31 @@ class Message(models.Model):
         return f"{self.sender.username}: {self.content[:50]}..."
 
     def get_read_count(self):
-        """পঠিত সংখ্যা রিটার্ন করে"""
+        """Returns read count"""
         return self.message_read.filter(is_read=True).count()
 
     def get_unread_count(self):
-        """অপঠিত সংখ্যা রিটার্ন করে"""
+        """Returns read count"""
         return self.message_read.filter(is_read=False).count()
 
     def is_read_by_user(self, user):
-        """নির্দিষ্ট ইউজার মেসেজ পড়েছে কিনা"""
+        """Whether specific user read message"""
         return self.message_read.filter(user=user, is_read=True).exists()
 
     def soft_delete(self):
-        """মেসেজ সফট ডিলিট করে"""
+        """Soft deletes message"""
         self.is_deleted = True
         self.deleted_at = timezone.now()
         self.save()
 
 
 # ========================================
-# ৪. MessageRead মডেল
+# 4. MessageRead Model
 # ========================================
 
 class MessageRead(models.Model):
     """
-    মেসেজ রিড স্ট্যাটাস - কে কখন মেসেজ পড়েছে
+    Message read status tracking
     """
     message = models.ForeignKey(
         Message, 
@@ -464,7 +464,7 @@ class MessageRead(models.Model):
         return f"{self.user.username} - {status}: {self.message}"
 
     def mark_as_read(self):
-        """মেসেজ রিড হিসেবে মার্ক করে"""
+        """Marks message as read"""
         if not self.is_read:
             self.is_read = True
             self.read_at = timezone.now()
@@ -474,12 +474,12 @@ class MessageRead(models.Model):
 
 
 # ========================================
-# ৫. Presence মডেল
+# 5. Presence Model
 # ========================================
 
 class Presence(models.Model):
     """
-    ইউজারের অনলাইন স্ট্যাটাস (Presence)
+    User online presence status
     """
     STATUS_CHOICES = [
         ('online', 'Online'),
@@ -508,7 +508,7 @@ class Presence(models.Model):
         verbose_name="Custom Status"
     )
     
-    # শেষ কার্যকলাপ
+    # Last activity
     last_activity = models.DateTimeField(
         auto_now=True,
         verbose_name="Last Activity"
@@ -519,14 +519,14 @@ class Presence(models.Model):
         verbose_name="Last Seen"
     )
     
-    # ডিভাইস তথ্য (JSON)
+    # Device info JSON
     devices = models.JSONField(
         default=list, 
         blank=True,
         verbose_name="Devices"
     )
     
-    # সেশন তথ্য
+    # Session info
     session_id = models.CharField(
         max_length=255, 
         blank=True, 
@@ -544,7 +544,7 @@ class Presence(models.Model):
         verbose_name="User Agent"
     )
     
-    # টাইমস্ট্যাম্প
+    # Timestamps
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Created At"
@@ -568,11 +568,11 @@ class Presence(models.Model):
         return f"{self.user.username} - {self.get_status_display()}"
 
     def is_online(self):
-        """ইউজার অনলাইন কিনা"""
+        """Whether user is online"""
         return self.status in ['online', 'away', 'busy', 'dnd']
 
     def update_status(self, status, custom_status=None):
-        """স্ট্যাটাস আপডেট করে"""
+        """Updates status"""
         self.status = status
         if custom_status is not None:
             self.custom_status = custom_status
@@ -582,31 +582,31 @@ class Presence(models.Model):
         self.save()
 
     def update_activity(self):
-        """শেষ কার্যকলাপ আপডেট করে"""
+        """Last activity """
         self.last_activity = timezone.now()
         self.save()
 
 
 # ========================================
-# ৬. সিগন্যাল - অটোমেটিক প্রেজেন্স তৈরি
+# 6. Signal - Automatic Presence Creation
 # ========================================
 
 @receiver(post_save, sender=User)
 def create_user_presence(sender, instance, created, **kwargs):
-    """নতুন ইউজার তৈরি হলে Presence তৈরি হয়"""
+    """Creates Presence when new User created"""
     if created:
         Presence.objects.create(user=instance)
 
 
 # ========================================
-# ৭. সিগন্যাল - মেসেজ রিড ট্র্যাকিং
+# 7. Signal - Message Read Tracking
 # ========================================
 
 @receiver(post_save, sender=Message)
 def create_message_read_records(sender, instance, created, **kwargs):
-    """মেসেজ তৈরি হলে সকল সদস্যের জন্য MessageRead তৈরি হয়"""
+    """ Members MessageRead """
     if created:
-        # চ্যাট রুমের সকল সদস্য
+        # Members
         members = instance.chat_room.members.exclude(id=instance.sender.id)
         message_reads = [
             MessageRead(message=instance, user=member)
@@ -614,7 +614,7 @@ def create_message_read_records(sender, instance, created, **kwargs):
         ]
         MessageRead.objects.bulk_create(message_reads)
         
-        # সেন্ডারের জন্য রিড তৈরি (সেন্ডার নিজের মেসেজ পড়েছে)
+        # Create read for sender who read own message
         MessageRead.objects.create(
             message=instance,
             user=instance.sender,
@@ -622,24 +622,24 @@ def create_message_read_records(sender, instance, created, **kwargs):
             read_at=timezone.now()
         )
         
-        # চ্যাট রুমের last_message_at আপডেট
+        # Update chat room last_message_at
         chat_room = instance.chat_room
         chat_room.last_message_at = instance.created_at
         chat_room.save(update_fields=['last_message_at'])
 
 
 # ========================================
-# ৮. হেল্পার মেথড
+# 8. Helper Methods
 # ========================================
 
 def get_or_create_direct_chat(user1, user2):
     """
-    দুই ইউজারের মধ্যে Direct Chat তৈরি বা রিটার্ন করে
+    Creates or returns direct chat between two users
     """
     if user1 == user2:
         raise ValueError("Cannot create chat with self")
     
-    # Direct chat খুঁজুন
+    # Find direct chat
     chat_room = ChatRoom.objects.filter(
         room_type='direct',
         members=user1
@@ -648,13 +648,13 @@ def get_or_create_direct_chat(user1, user2):
     if chat_room:
         return chat_room
     
-    # নতুন Direct chat তৈরি
+    # Create new direct chat
     chat_room = ChatRoom.objects.create(
         room_type='direct',
         created_by=user1
     )
     
-    # ChatRoomMember তৈরি
+    # ChatRoomMember 
     ChatRoomMember.objects.bulk_create([
         ChatRoomMember(chat_room=chat_room, user=user1, role='admin'),
         ChatRoomMember(chat_room=chat_room, user=user2, role='member'),
@@ -665,7 +665,7 @@ def get_or_create_direct_chat(user1, user2):
 
 def get_group_chat(name, created_by, members=None):
     """
-    গ্রুপ চ্যাট তৈরি করে
+    Creates group chat
     """
     chat_room = ChatRoom.objects.create(
         room_type='group',
@@ -673,7 +673,7 @@ def get_group_chat(name, created_by, members=None):
         created_by=created_by
     )
     
-    # সৃষ্টিকর্তাকে অ্যাডমিন হিসেবে যোগ করুন
+    # Add creator as admin
     ChatRoomMember.objects.create(
         chat_room=chat_room,
         user=created_by,
@@ -681,7 +681,7 @@ def get_group_chat(name, created_by, members=None):
     )
     chat_room.admins.add(created_by)
     
-    # অন্যান্য সদস্য যোগ করুন
+    # Members 
     if members:
         for user in members:
             if user != created_by:

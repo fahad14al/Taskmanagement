@@ -9,15 +9,15 @@ from django.dispatch import receiver
 from workspace.models import Project, Task, Ticket, Organization
 
 # ========================================
-# ১. Comment মডেল
+# 1. Comment Model
 # ========================================
 
 class Comment(models.Model):
     """
-    ইউজারদের মন্তব্য - যেকোনো মডেলের সাথে সংযুক্ত করা যায়
-    (Task, Ticket, Project, ইত্যাদি)
+    User comments linked to model
+    (Task, Ticket, Project, )
     """
-    # Generic Foreign Key - যেকোনো মডেলের সাথে সংযুক্ত
+    # Generic Foreign Key - 
     content_type = models.ForeignKey(
         ContentType, 
         on_delete=models.CASCADE,
@@ -29,7 +29,7 @@ class Comment(models.Model):
     )
     content_object = GenericForeignKey('content_type', 'object_id')
     
-    # মন্তব্যের তথ্য
+    # Comment details
     author = models.ForeignKey(
         User, 
         on_delete=models.CASCADE, 
@@ -48,7 +48,7 @@ class Comment(models.Model):
         verbose_name="Comment Content"
     )
     
-    # অ্যাটাচমেন্ট (অপশনাল)
+    # Optional attachment
     attachment = models.FileField(
         upload_to='comments/attachments/%Y/%m/%d/',
         blank=True, 
@@ -56,7 +56,7 @@ class Comment(models.Model):
         verbose_name="Attachment"
     )
     
-    # টাইমস্ট্যাম্প
+    # Timestamps
     created_at = models.DateTimeField(
         auto_now_add=True, 
         verbose_name="Created At"
@@ -88,7 +88,7 @@ class Comment(models.Model):
 
     def save(self, *args, **kwargs):
         if self.pk:
-            # যদি আপডেট হয়
+            # If updating
             original = Comment.objects.get(pk=self.pk)
             if original.content != self.content:
                 self.is_edited = True
@@ -96,22 +96,22 @@ class Comment(models.Model):
 
     @property
     def reply_count(self):
-        """রিপ্লাইয়ের সংখ্যা"""
+        """Number of replies"""
         return self.replies.filter(is_deleted=False).count()
 
     def is_owner(self, user):
-        """মন্তব্যের মালিক কিনা চেক করে"""
+        """Check if user is comment owner"""
         return self.author == user
 
 
 # ========================================
-# ২. Mention মডেল
+# 2. Mention Model
 # ========================================
 
 class Mention(models.Model):
     """
-    ইউজার মেনশন - যেকোনো মডেলের সাথে সংযুক্ত
-    (Comment, Task, Ticket, ইত্যাদি)
+    User mentions linked to model
+    (Comment, Task, Ticket, )
     """
     # Generic Foreign Key
     content_type = models.ForeignKey(
@@ -125,7 +125,7 @@ class Mention(models.Model):
     )
     content_object = GenericForeignKey('content_type', 'object_id')
     
-    # মেনশনের তথ্য
+    # Mention details
     mentioned_user = models.ForeignKey(
         User, 
         on_delete=models.CASCADE, 
@@ -139,7 +139,7 @@ class Mention(models.Model):
         verbose_name="Mentioned By"
     )
     
-    # মেনশনের কন্টেক্সট
+    # Mention context
     context = models.TextField(
         blank=True, 
         null=True,
@@ -151,7 +151,7 @@ class Mention(models.Model):
         verbose_name="Context URL"
     )
     
-    # স্ট্যাটাস
+    # 
     is_read = models.BooleanField(
         default=False, 
         verbose_name="Is Read"
@@ -162,7 +162,7 @@ class Mention(models.Model):
         verbose_name="Read At"
     )
     
-    # টাইমস্ট্যাম্প
+    # Timestamps
     created_at = models.DateTimeField(
         auto_now_add=True, 
         verbose_name="Created At"
@@ -181,7 +181,7 @@ class Mention(models.Model):
         return f"{self.mentioned_by} mentioned {self.mentioned_user}"
 
     def mark_as_read(self):
-        """মেনশন রিড হিসেবে মার্ক করা"""
+        """Mark mention as read"""
         if not self.is_read:
             self.is_read = True
             self.read_at = timezone.now()
@@ -189,12 +189,12 @@ class Mention(models.Model):
 
 
 # ========================================
-# ৩. Notification মডেল
+# 3. Notification Model
 # ========================================
 
 class Notification(models.Model):
     """
-    নোটিফিকেশন - ইউজারদের বিভিন্ন ইভেন্ট সম্পর্কে জানানো
+    Notifications for user events
     """
     NOTIFICATION_TYPES = [
         ('comment', 'New Comment'),
@@ -282,7 +282,7 @@ class Notification(models.Model):
     is_sent = models.BooleanField(
         default=False, 
         verbose_name="Is Sent"
-    )  # Email/Push সেন্ট হয়েছে কিনা
+    ) # Email/Push 
     sent_at = models.DateTimeField(
         null=True, 
         blank=True,
@@ -319,14 +319,14 @@ class Notification(models.Model):
         return f"{self.title} - {self.recipient.username}"
 
     def mark_as_read(self):
-        """নোটিফিকেশন রিড হিসেবে মার্ক করা"""
+        """Mark notification as read"""
         if not self.is_read:
             self.is_read = True
             self.read_at = timezone.now()
             self.save()
 
     def mark_as_sent(self):
-        """নোটিফিকেশন সেন্ট হিসেবে মার্ক করা"""
+        """Mark notification as sent"""
         if not self.is_sent:
             self.is_sent = True
             self.sent_at = timezone.now()
@@ -334,12 +334,12 @@ class Notification(models.Model):
 
 
 # ========================================
-# ৪. ActivityLog মডেল
+# 4. ActivityLog Model
 # ========================================
 
 class ActivityLog(models.Model):
     """
-    সকল অ্যাক্টিভিটি লগ - অডিট ট্রেইল
+    Activity log audit trail
     """
     ACTION_TYPES = [
         ('create', 'Created'),
@@ -359,7 +359,7 @@ class ActivityLog(models.Model):
         ('restore', 'Restored'),
     ]
     
-    # Actor (কে করেছে)
+    # Actor ( )
     actor = models.ForeignKey(
         User, 
         on_delete=models.SET_NULL,
@@ -415,7 +415,7 @@ class ActivityLog(models.Model):
         verbose_name="Changes"
     )
     
-    # IP Address & User Agent (অডিটের জন্য)
+    # IP Address & User Agent ( )
     ip_address = models.GenericIPAddressField(
         null=True, 
         blank=True,
@@ -473,27 +473,27 @@ class ActivityLog(models.Model):
 
 
 # ========================================
-# ৫. Reaction মডেল
+# 5. Reaction Model
 # ========================================
 
 class Reaction(models.Model):
     """
-    রিঅ্যাকশন - Like, Love, Laugh, Sad, Angry ইত্যাদি
+    Reactions like Love Laugh Sad Angry etc
     """
     REACTION_TYPES = [
-        ('like', '👍 Like'),
-        ('love', '❤️ Love'),
-        ('laugh', '😂 Laugh'),
-        ('sad', '😢 Sad'),
-        ('angry', '😡 Angry'),
-        ('wow', '😮 Wow'),
-        ('applause', '👏 Applause'),
-        ('thumbs_down', '👎 Dislike'),
-        ('rocket', '🚀 Rocket'),
-        ('fire', '🔥 Fire'),
+        ('like', 'Like'),
+        ('love', 'Love'),
+        ('laugh', 'Laugh'),
+        ('sad', 'Sad'),
+        ('angry', 'Angry'),
+        ('wow', 'Wow'),
+        ('applause', 'Applause'),
+        ('thumbs_down', 'Dislike'),
+        ('rocket', 'Rocket'),
+        ('fire', 'Fire'),
     ]
     
-    # Generic Foreign Key - যেকোনো মডেলের সাথে (Comment, Task, Ticket, ইত্যাদি)
+    # Generic Foreign Key - (Comment, Task, Ticket, )
     content_type = models.ForeignKey(
         ContentType, 
         on_delete=models.CASCADE,
@@ -529,7 +529,7 @@ class Reaction(models.Model):
     )
     
     class Meta:
-        # একই ইউজার একই অবজেক্টে একবার রিঅ্যাক্ট করতে পারে
+        # User can react once per object
         unique_together = ['content_type', 'object_id', 'user']
         ordering = ['-created_at']
         indexes = [
@@ -544,12 +544,12 @@ class Reaction(models.Model):
 
 
 # ========================================
-# ৬. সিগন্যাল - অটোমেটিক অ্যাক্টিভিটি লগ
+# 6. Signals - Automatic Activity Log
 # ========================================
 
 @receiver(post_save, sender=Comment)
 def log_comment_activity(sender, instance, created, **kwargs):
-    """কমেন্ট তৈরি/আপডেট হলে অ্যাক্টিভিটি লগ"""
+    """Activity log on comment creation or update"""
     if created:
         action_type = 'comment'
         description = f"Commented on {instance.content_object}"
@@ -569,7 +569,7 @@ def log_comment_activity(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Mention)
 def log_mention_activity(sender, instance, created, **kwargs):
-    """মেনশন তৈরি হলে অ্যাক্টিভিটি লগ ও নোটিফিকেশন"""
+    """Activity log and notification on mention creation"""
     if created:
         # Activity Log
         ActivityLog.objects.create(
@@ -595,7 +595,7 @@ def log_mention_activity(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Task)
 def log_task_activity(sender, instance, created, **kwargs):
-    """টাস্ক তৈরি/আপডেট হলে অ্যাক্টিভিটি লগ"""
+    """Activity log on task creation or update"""
     if created:
         action_type = 'create'
         description = f"Created task: {instance.title}"
@@ -615,7 +615,7 @@ def log_task_activity(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Ticket)
 def log_ticket_activity(sender, instance, created, **kwargs):
-    """টিকেট তৈরি/আপডেট হলে অ্যাক্টিভিটি লগ"""
+    """Activity log on ticket creation or update"""
     if created:
         action_type = 'create'
         description = f"Created ticket: {instance.title}"

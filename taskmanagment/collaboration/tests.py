@@ -15,14 +15,14 @@ from .models import (
 
 
 # ========================================
-# ১. Model Tests
+# . Model Tests
 # ========================================
 
 class CommentModelTest(TestCase):
-    """Comment মডেল টেস্ট"""
+    """Comment """
     
     def setUp(self):
-        """টেস্ট ডেটা তৈরি"""
+        """ """
         self.user = User.objects.create_user(
             username='testuser',
             email='test@example.com',
@@ -33,13 +33,13 @@ class CommentModelTest(TestCase):
             password='testpass123'
         )
         
-        # Task এর মতো একটি ডামি অবজেক্ট তৈরি (ContentType এর জন্য)
+        # Task (ContentType )
         from django.contrib.contenttypes.models import ContentType
         self.content_type = ContentType.objects.get_for_model(User)
         self.object_id = self.user.id
         
     def test_create_comment(self):
-        """কমেন্ট তৈরি টেস্ট"""
+        """ """
         comment = Comment.objects.create(
             author=self.user,
             content='This is a test comment',
@@ -55,7 +55,7 @@ class CommentModelTest(TestCase):
         self.assertFalse(comment.is_deleted)
         
     def test_comment_reply(self):
-        """কমেন্টের রিপ্লাই টেস্ট"""
+        """ """
         parent_comment = Comment.objects.create(
             author=self.user,
             content='Parent comment',
@@ -75,7 +75,7 @@ class CommentModelTest(TestCase):
         self.assertEqual(parent_comment.reply_count, 1)
         
     def test_comment_edit(self):
-        """কমেন্ট এডিট টেস্ট"""
+        """ """
         comment = Comment.objects.create(
             author=self.user,
             content='Original content',
@@ -91,7 +91,7 @@ class CommentModelTest(TestCase):
         self.assertTrue(comment.is_edited)
         
     def test_comment_soft_delete(self):
-        """কমেন্ট সফট ডিলিট টেস্ট"""
+        """ """
         comment = Comment.objects.create(
             author=self.user,
             content='Test comment',
@@ -107,7 +107,7 @@ class CommentModelTest(TestCase):
         self.assertTrue(comment.is_deleted)
         
     def test_is_owner_method(self):
-        """is_owner মেথড টেস্ট"""
+        """is_owner """
         comment = Comment.objects.create(
             author=self.user,
             content='Test comment',
@@ -119,7 +119,7 @@ class CommentModelTest(TestCase):
         self.assertFalse(comment.is_owner(self.another_user))
         
     def test_comment_str_method(self):
-        """__str__ মেথড টেস্ট"""
+        """__str__ """
         comment = Comment.objects.create(
             author=self.user,
             content='Test comment',
@@ -132,7 +132,7 @@ class CommentModelTest(TestCase):
 
 
 class MentionModelTest(TestCase):
-    """Mention মডেল টেস্ট"""
+    """Mention """
     
     def setUp(self):
         self.user1 = User.objects.create_user(
@@ -147,7 +147,7 @@ class MentionModelTest(TestCase):
         self.object_id = self.user1.id
         
     def test_create_mention(self):
-        """মেনশন তৈরি টেস্ট"""
+        """ """
         mention = Mention.objects.create(
             mentioned_user=self.user2,
             mentioned_by=self.user1,
@@ -164,7 +164,7 @@ class MentionModelTest(TestCase):
         self.assertFalse(mention.is_read)
         
     def test_mark_mention_as_read(self):
-        """মেনশন রিড হিসেবে মার্ক টেস্ট"""
+        """ """
         mention = Mention.objects.create(
             mentioned_user=self.user2,
             mentioned_by=self.user1,
@@ -181,7 +181,7 @@ class MentionModelTest(TestCase):
         self.assertIsNotNone(mention.read_at)
         
     def test_mention_str_method(self):
-        """__str__ মেথড টেস্ট"""
+        """__str__ """
         mention = Mention.objects.create(
             mentioned_user=self.user2,
             mentioned_by=self.user1,
@@ -194,7 +194,7 @@ class MentionModelTest(TestCase):
 
 
 class NotificationModelTest(TestCase):
-    """Notification মডেল টেস্ট"""
+    """Notification """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -207,7 +207,7 @@ class NotificationModelTest(TestCase):
         )
         
     def test_create_notification(self):
-        """নোটিফিকেশন তৈরি টেস্ট"""
+        """ """
         notification = Notification.objects.create(
             recipient=self.user,
             notification_type='task_assigned',
@@ -225,7 +225,7 @@ class NotificationModelTest(TestCase):
         self.assertEqual(notification.created_by, self.another_user)
         
     def test_mark_notification_as_read(self):
-        """নোটিফিকেশন রিড হিসেবে মার্ক টেস্ট"""
+        """ """
         notification = Notification.objects.create(
             recipient=self.user,
             notification_type='system',
@@ -241,7 +241,7 @@ class NotificationModelTest(TestCase):
         self.assertIsNotNone(notification.read_at)
         
     def test_mark_notification_as_sent(self):
-        """নোটিফিকেশন সেন্ট হিসেবে মার্ক টেস্ট"""
+        """ """
         notification = Notification.objects.create(
             recipient=self.user,
             notification_type='system',
@@ -257,7 +257,7 @@ class NotificationModelTest(TestCase):
         self.assertIsNotNone(notification.sent_at)
         
     def test_notification_str_method(self):
-        """__str__ মেথড টেস্ট"""
+        """__str__ """
         notification = Notification.objects.create(
             recipient=self.user,
             notification_type='system',
@@ -270,7 +270,7 @@ class NotificationModelTest(TestCase):
 
 
 class ActivityLogModelTest(TestCase):
-    """ActivityLog মডেল টেস্ট"""
+    """ActivityLog """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -281,7 +281,7 @@ class ActivityLogModelTest(TestCase):
         self.object_id = self.user.id
         
     def test_create_activity_log(self):
-        """অ্যাক্টিভিটি লগ তৈরি টেস্ট"""
+        """ """
         log = ActivityLog.objects.create(
             actor=self.user,
             action_type='create',
@@ -299,7 +299,7 @@ class ActivityLogModelTest(TestCase):
         self.assertEqual(log.ip_address, '127.0.0.1')
         
     def test_activity_log_with_changes(self):
-        """অ্যাক্টিভিটি লগে Changes JSON টেস্ট"""
+        """ Changes JSON """
         changes = {
             'old_status': 'todo',
             'new_status': 'in_progress'
@@ -317,7 +317,7 @@ class ActivityLogModelTest(TestCase):
         self.assertEqual(log.changes['new_status'], 'in_progress')
         
     def test_activity_log_str_method(self):
-        """__str__ মেথড টেস্ট"""
+        """__str__ """
         log = ActivityLog.objects.create(
             actor=self.user,
             action_type='create',
@@ -329,7 +329,7 @@ class ActivityLogModelTest(TestCase):
 
 
 class ReactionModelTest(TestCase):
-    """Reaction মডেল টেস্ট"""
+    """Reaction """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -344,7 +344,7 @@ class ReactionModelTest(TestCase):
         self.object_id = self.user.id
         
     def test_create_reaction(self):
-        """রিঅ্যাকশন তৈরি টেস্ট"""
+        """ """
         reaction = Reaction.objects.create(
             user=self.user,
             reaction_type='like',
@@ -358,7 +358,7 @@ class ReactionModelTest(TestCase):
         self.assertEqual(reaction.object_id, self.object_id)
         
     def test_unique_reaction_constraint(self):
-        """একই ইউজার একই অবজেক্টে একবার রিঅ্যাক্ট করতে পারে টেস্ট"""
+        """User can react once per object """
         Reaction.objects.create(
             user=self.user,
             reaction_type='like',
@@ -366,7 +366,7 @@ class ReactionModelTest(TestCase):
             object_id=self.object_id
         )
         
-        # দ্বিতীয়বার রিঅ্যাকশন তৈরি করা উচিত নয়
+        # 
         with self.assertRaises(Exception):
             Reaction.objects.create(
                 user=self.user,
@@ -376,7 +376,7 @@ class ReactionModelTest(TestCase):
             )
             
     def test_reaction_str_method(self):
-        """__str__ মেথড টেস্ট"""
+        """__str__ """
         reaction = Reaction.objects.create(
             user=self.user,
             reaction_type='like',
@@ -389,11 +389,11 @@ class ReactionModelTest(TestCase):
 
 
 # ========================================
-# ২. Serializer Tests
+# . Serializer Tests
 # ========================================
 
 class CommentSerializerTest(APITestCase):
-    """Comment Serializer টেস্ট"""
+    """Comment Serializer """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -417,7 +417,7 @@ class CommentSerializerTest(APITestCase):
         }
         
     def test_create_comment_serializer(self):
-        """কমেন্ট তৈরি সিরিয়ালাইজার টেস্ট"""
+        """ """
         from collaboration.serializers import CommentCreateSerializer
         
         serializer = CommentCreateSerializer(
@@ -432,7 +432,7 @@ class CommentSerializerTest(APITestCase):
         self.assertEqual(comment.content, 'This is a test comment')
         
     def test_invalid_content_type(self):
-        """Invalid Content Type টেস্ট"""
+        """Invalid Content Type """
         from collaboration.serializers import CommentCreateSerializer
         
         invalid_data = self.comment_data.copy()
@@ -447,7 +447,7 @@ class CommentSerializerTest(APITestCase):
         self.assertIn('content_type', serializer.errors)
         
     def test_comment_serializer_fields(self):
-        """Comment Serializer ফিল্ড টেস্ট"""
+        """Comment Serializer """
         comment = Comment.objects.create(
             author=self.user,
             content='Test comment',
@@ -468,7 +468,7 @@ class CommentSerializerTest(APITestCase):
 
 
 class NotificationSerializerTest(APITestCase):
-    """Notification Serializer টেস্ট"""
+    """Notification Serializer """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -487,7 +487,7 @@ class NotificationSerializerTest(APITestCase):
         )
         
     def test_notification_serializer(self):
-        """নোটিফিকেশন সিরিয়ালাইজার টেস্ট"""
+        """ """
         from collaboration.serializers import NotificationSerializer
         
         serializer = NotificationSerializer(self.notification)
@@ -500,7 +500,7 @@ class NotificationSerializerTest(APITestCase):
         self.assertIn('time_ago', data)
         
     def test_notification_time_ago(self):
-        """নোটিফিকেশনের Time Ago টেস্ট"""
+        """ Time Ago """
         from collaboration.serializers import NotificationSerializer
         
         # 5 minutes ago
@@ -512,7 +512,7 @@ class NotificationSerializerTest(APITestCase):
 
 
 class ReactionSerializerTest(APITestCase):
-    """Reaction Serializer টেস্ট"""
+    """Reaction Serializer """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -536,7 +536,7 @@ class ReactionSerializerTest(APITestCase):
         )
         
     def test_reaction_serializer(self):
-        """Reaction Serializer টেস্ট"""
+        """Reaction Serializer """
         from collaboration.serializers import ReactionSerializer
         
         serializer = ReactionSerializer(self.reaction, context={'request': self.request})
@@ -544,16 +544,16 @@ class ReactionSerializerTest(APITestCase):
         
         self.assertEqual(data['reaction_type'], 'like')
         self.assertEqual(data['user_username'], 'testuser')
-        self.assertEqual(data['reaction_type_display'], '👍 Like')
+        self.assertEqual(data['reaction_type_display'], 'Like')
         self.assertIn('is_owner', data)
 
 
 # ========================================
-# ৩. View/API Tests
+# . View/API Tests
 # ========================================
 
 class CommentAPITest(APITestCase):
-    """Comment API টেস্ট"""
+    """Comment API """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -577,7 +577,7 @@ class CommentAPITest(APITestCase):
         self.comment_url = '/api/collaboration/comments/'
         
     def test_create_comment(self):
-        """কমেন্ট তৈরি API টেস্ট"""
+        """ API """
         data = {
             'content': 'Test API comment',
             'content_type': f'{self.content_type.app_label}.{self.content_type.model}',
@@ -591,7 +591,7 @@ class CommentAPITest(APITestCase):
         self.assertEqual(response.data['author_username'], 'testuser')
         
     def test_list_comments(self):
-        """কমেন্ট লিস্ট API টেস্ট"""
+        """ API """
         # Create another comment
         Comment.objects.create(
             author=self.user,
@@ -606,7 +606,7 @@ class CommentAPITest(APITestCase):
         self.assertEqual(len(response.data), 2)
         
     def test_retrieve_comment(self):
-        """কমেন্ট রিট্রিভ API টেস্ট"""
+        """ API """
         url = f'{self.comment_url}{self.comment.id}/'
         response = self.client.get(url)
         
@@ -615,7 +615,7 @@ class CommentAPITest(APITestCase):
         self.assertEqual(response.data['content'], 'Test comment')
         
     def test_update_comment(self):
-        """কমেন্ট আপডেট API টেস্ট"""
+        """ API """
         url = f'{self.comment_url}{self.comment.id}/'
         data = {'content': 'Updated content'}
         
@@ -626,14 +626,14 @@ class CommentAPITest(APITestCase):
         self.assertTrue(response.data['is_edited'])
         
     def test_delete_comment(self):
-        """কমেন্ট ডিলিট API টেস্ট"""
+        """ API """
         url = f'{self.comment_url}{self.comment.id}/'
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         
     def test_unauthenticated_comment_access(self):
-        """অননুমোদিত ইউজারের কমেন্ট অ্যাক্সেস টেস্ট"""
+        """ """
         self.client.credentials()  # Clear authentication
         
         response = self.client.get(self.comment_url)
@@ -641,7 +641,7 @@ class CommentAPITest(APITestCase):
 
 
 class NotificationAPITest(APITestCase):
-    """Notification API টেস্ট"""
+    """Notification API """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -665,14 +665,14 @@ class NotificationAPITest(APITestCase):
             )
             
     def test_list_notifications(self):
-        """নোটিফিকেশন লিস্ট API টেস্ট"""
+        """ API """
         response = self.client.get(self.notification_url)
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 5)
         
     def test_retrieve_notification(self):
-        """নোটিফিকেশন রিট্রিভ API টেস্ট"""
+        """ API """
         notification = Notification.objects.filter(recipient=self.user).first()
         url = f'{self.notification_url}{notification.id}/'
         
@@ -682,9 +682,9 @@ class NotificationAPITest(APITestCase):
         self.assertEqual(response.data['id'], notification.id)
         
     def test_mark_notifications_read(self):
-        """নোটিফিকেশন রিড মার্ক API টেস্ট"""
+        """ API """
         unread_count = Notification.objects.filter(recipient=self.user, is_read=False).count()
-        self.assertEqual(unread_count, 2)  # 5টি মধ্যে 2টি আনরিড
+        self.assertEqual(unread_count, 2) # 5 2 
         
         url = f'{self.notification_url}mark-read/'
         data = {'mark_all': True}
@@ -701,7 +701,7 @@ class NotificationAPITest(APITestCase):
         )
         
     def test_mark_specific_notifications_read(self):
-        """নির্দিষ্ট নোটিফিকেশন রিড মার্ক API টেস্ট"""
+        """ API """
         notifications = Notification.objects.filter(recipient=self.user, is_read=False)[:2]
         notification_ids = [n.id for n in notifications]
         
@@ -714,7 +714,7 @@ class NotificationAPITest(APITestCase):
         self.assertEqual(response.data['marked_count'], 2)
         
     def test_unread_count(self):
-        """আনরিড নোটিফিকেশন কাউন্ট API টেস্ট"""
+        """ API """
         url = f'{self.notification_url}unread-count/'
         response = self.client.get(url)
         
@@ -723,7 +723,7 @@ class NotificationAPITest(APITestCase):
 
 
 class ReactionAPITest(APITestCase):
-    """Reaction API টেস্ট"""
+    """Reaction API """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -746,7 +746,7 @@ class ReactionAPITest(APITestCase):
         )
         
     def test_create_reaction(self):
-        """রিঅ্যাকশন তৈরি API টেস্ট"""
+        """ API """
         data = {
             'reaction_type': 'love',
             'content_type': f'{self.content_type.app_label}.{self.content_type.model}',
@@ -760,7 +760,7 @@ class ReactionAPITest(APITestCase):
         self.assertEqual(response.data['user_username'], 'testuser')
         
     def test_update_reaction(self):
-        """রিঅ্যাকশন আপডেট API টেস্ট"""
+        """ API """
         data = {
             'reaction_type': 'laugh',
             'content_type': f'{self.content_type.app_label}.{self.content_type.model}',
@@ -773,14 +773,14 @@ class ReactionAPITest(APITestCase):
         self.assertEqual(response.data['reaction_type'], 'laugh')
         
     def test_list_reactions(self):
-        """রিঅ্যাকশন লিস্ট API টেস্ট"""
+        """ API """
         response = self.client.get(self.reaction_url)
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         
     def test_reaction_stats(self):
-        """রিঅ্যাকশন পরিসংখ্যান API টেস্ট"""
+        """ API """
         # We already have one reaction by self.user ('like')
         # Add reactions from other users
         reactions = ['love', 'laugh', 'wow']
@@ -803,7 +803,7 @@ class ReactionAPITest(APITestCase):
         self.assertEqual(len(response.data), 4)  # 4 unique reactions
         
     def test_delete_reaction(self):
-        """রিঅ্যাকশন ডিলিট API টেস্ট"""
+        """ API """
         url = f'{self.reaction_url}{self.reaction.id}/'
         response = self.client.delete(url)
         
@@ -811,7 +811,7 @@ class ReactionAPITest(APITestCase):
 
 
 class MentionAPITest(APITestCase):
-    """Mention API টেস্ট"""
+    """Mention API """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -838,7 +838,7 @@ class MentionAPITest(APITestCase):
         )
         
     def test_create_mention(self):
-        """মেনশন তৈরি API টেস্ট"""
+        """ API """
         data = {
             'mentioned_user': self.another_user.id,
             'content_type': f'{self.content_type.app_label}.{self.content_type.model}',
@@ -852,14 +852,14 @@ class MentionAPITest(APITestCase):
         self.assertEqual(response.data['mentioned_user_username'], 'anotheruser')
         
     def test_list_mentions(self):
-        """মেনশন লিস্ট API টেস্ট"""
+        """ API """
         response = self.client.get(self.mention_url)
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         
     def test_mark_mention_read(self):
-        """মেনশন রিড মার্ক API টেস্ট"""
+        """ API """
         url = f'{self.mention_url}{self.mention.id}/mark-read/'
         response = self.client.post(url)
         
@@ -869,7 +869,7 @@ class MentionAPITest(APITestCase):
 
 
 class ActivityLogAPITest(APITestCase):
-    """ActivityLog API টেস্ট"""
+    """ActivityLog API """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -891,14 +891,14 @@ class ActivityLogAPITest(APITestCase):
             )
             
     def test_list_activity_logs(self):
-        """অ্যাক্টিভিটি লগ লিস্ট API টেস্ট"""
+        """ API """
         response = self.client.get(self.log_url)
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 5)
         
     def test_filter_by_action_type(self):
-        """অ্যাক্টিভিটি লগ ফিল্টার API টেস্ট"""
+        """ API """
         url = f'{self.log_url}?action_type=create'
         response = self.client.get(url)
         
@@ -908,11 +908,11 @@ class ActivityLogAPITest(APITestCase):
 
 
 # ========================================
-# ৪. Signal Tests
+# . Signal Tests
 # ========================================
 
 class SignalTest(TestCase):
-    """Signals টেস্ট"""
+    """Signals """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -926,7 +926,7 @@ class SignalTest(TestCase):
         self.content_type = ContentType.objects.get_for_model(User)
         
     def test_comment_signal_creates_activity_log(self):
-        """কমেন্ট তৈরি হলে অ্যাক্টিভিটি লগ তৈরি হয় কিনা টেস্ট"""
+        """ """
         initial_log_count = ActivityLog.objects.count()
         
         Comment.objects.create(
@@ -939,7 +939,7 @@ class SignalTest(TestCase):
         self.assertEqual(ActivityLog.objects.count(), initial_log_count + 1)
         
     def test_mention_signal_creates_activity_log_and_notification(self):
-        """মেনশন তৈরি হলে অ্যাক্টিভিটি লগ ও নোটিফিকেশন তৈরি হয় কিনা টেস্ট"""
+        """Activity log and notification on mention creation """
         initial_log_count = ActivityLog.objects.count()
         initial_notification_count = Notification.objects.count()
         
@@ -954,18 +954,18 @@ class SignalTest(TestCase):
         self.assertEqual(Notification.objects.count(), initial_notification_count + 1)
         
     def test_task_signal_creates_activity_log(self):
-        """Task তৈরি হলে অ্যাক্টিভিটি লগ তৈরি হয় কিনা টেস্ট (Mock ব্যবহার)"""
-        # Task মডেলটি accounts অ্যাপে আছে, তাই আমরা সরাসরি টেস্ট করছি না
-        # বাস্তবে signal কাজ করবে
+        """Task (Mock )"""
+        # Task accounts , 
+        # signal 
         pass
 
 
 # ========================================
-# ৫. Integration Tests
+# . Integration Tests
 # ========================================
 
 class IntegrationTest(APITestCase):
-    """ইন্টিগ্রেশন টেস্ট"""
+    """ """
     
     def setUp(self):
         self.user = User.objects.create_user(
@@ -983,7 +983,7 @@ class IntegrationTest(APITestCase):
         self.content_type = ContentType.objects.get_for_model(User)
         
     def test_full_comment_workflow(self):
-        """সম্পূর্ণ কমেন্ট ওয়ার্কফ্লো টেস্ট"""
+        """ """
         # 1. Create a comment
         comment_data = {
             'content': 'Integration test comment',
@@ -1033,7 +1033,7 @@ class IntegrationTest(APITestCase):
         self.assertGreater(len(response.data), 0)
         
     def test_mention_creates_notification(self):
-        """মেনশন নোটিফিকেশন তৈরি করে কিনা টেস্ট"""
+        """ """
         # Create a mention
         mention_data = {
             'mentioned_user': self.another_user.id,
@@ -1059,7 +1059,7 @@ class IntegrationTest(APITestCase):
         self.assertEqual(notification.title, f'New Mention from {self.user.username}')
         
     def test_notification_mark_read_workflow(self):
-        """নোটিফিকেশন রিড মার্ক ওয়ার্কফ্লো টেস্ট"""
+        """ """
         # Create notifications
         for i in range(3):
             Notification.objects.create(

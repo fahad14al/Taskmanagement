@@ -9,7 +9,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('accounts.urls')),
     path('api/collaboration/', include('collaboration.urls')),
+    path('api/communication/', include('communication.urls')),
     path('api/workspace/', include('workspace.urls')),
+    path('api/analytics/', include('analytics.urls')),
     path('api-auth/', include('rest_framework.urls')),
 ]
 

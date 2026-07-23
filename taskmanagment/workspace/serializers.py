@@ -11,7 +11,7 @@ from .models import (
 from accounts.models import Role, Permission, Profile
 
 # ========================================
-# ১. Role, Permission Serializer
+# 1. Role, Permission Serializer
 # ========================================
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -27,7 +27,7 @@ class PermissionSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
 # ========================================
-# ২. Profile Serializer
+# 2. Profile Serializer
 # ========================================
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -57,7 +57,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 # ========================================
-# ৩. User Serializer (রেজিস্ট্রেশন + প্রোফাইল)
+# 3. User Serializer (Registration and Profile)
 # ========================================
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -84,15 +84,15 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, attrs):
-        """পাসওয়ার্ড দুটি মিলছে কিনা চেক করে"""
+        """Checks if passwords match"""
         if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "পাসওয়ার্ড দুটি মিলছে না।"})
+            raise serializers.ValidationError({"password": "Passwords do not match."})
         return attrs
 
     def create(self, validated_data):
-        """ইউজার তৈরি করে প্রোফাইল সেট করে"""
+        """Creates user and sets profile"""
         profile_data = validated_data.pop('profile', {})
-        validated_data.pop('password2')  # password2 দরকার নেই
+        validated_data.pop('password2')  # password2 not needed
         
         user = User.objects.create_user(
             username=validated_data['username'],
@@ -100,7 +100,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         
-        # প্রোফাইল আপডেট করুন
+        # Update profile
         profile = user.profile
         
         if 'role' in profile_data and profile_data['role']:
@@ -118,7 +118,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
     def to_representation(self, instance):
-        """রেসপন্সে প্রোফাইল ডেটা দেখানোর জন্য"""
+        """To show profile data in response"""
         data = super().to_representation(instance)
         data['profile'] = ProfileSerializer(instance.profile).data
         return data
@@ -141,13 +141,13 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         profile_data = validated_data.pop('profile', {})
         
-        # ইউজার আপডেট
+        # User update
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.email = validated_data.get('email', instance.email)
         instance.save()
         
-        # প্রোফাইল আপডেট
+        # Profile update
         profile = instance.profile
         if profile_data:
             if 'phone' in profile_data:
@@ -163,11 +163,11 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         return instance
 
 # ========================================
-# ৪. Organization Serializer
+# 4. Organization Serializer
 # ========================================
 
 class OrganizationListSerializer(serializers.ModelSerializer):
-    """অর্গানাইজেশনের সংক্ষিপ্ত তথ্য"""
+    """Organization summary info"""
     created_by_username = serializers.ReadOnlyField(source='created_by.username')
     
     class Meta:
@@ -176,7 +176,7 @@ class OrganizationListSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 class OrganizationDetailSerializer(serializers.ModelSerializer):
-    """অর্গানাইজেশনের বিস্তারিত তথ্য"""
+    """Organization detail info"""
     created_by_username = serializers.ReadOnlyField(source='created_by.username')
     departments_count = serializers.SerializerMethodField()
     projects_count = serializers.SerializerMethodField()
@@ -205,13 +205,13 @@ class OrganizationCreateUpdateSerializer(serializers.ModelSerializer):
         ]
     
     def validate_slug(self, value):
-        """স্লাগ ইউনিক কিনা চেক করে"""
+        """Checks if slug is unique"""
         if Organization.objects.filter(slug=value).exists():
-            raise serializers.ValidationError("এই স্লাগ ইতিমধ্যে ব্যবহার করা হয়েছে।")
+            raise serializers.ValidationError("This slug is already in use.")
         return value
 
 # ========================================
-# ৫. Department Serializer
+# 5. Department Serializer
 # ========================================
 
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -231,7 +231,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
         return obj.teams.filter(is_active=True).count()
 
 # ========================================
-# ৬. Team Serializer
+# 6. Team Serializer
 # ========================================
 
 class TeamSerializer(serializers.ModelSerializer):
@@ -251,7 +251,7 @@ class TeamSerializer(serializers.ModelSerializer):
         return obj.members.filter(is_active=True).count()
 
 class TeamDetailSerializer(TeamSerializer):
-    """টিমের বিস্তারিত তথ্য (সদস্যদের সহ)"""
+    """ (Members )"""
     members = serializers.SerializerMethodField()
     
     class Meta(TeamSerializer.Meta):
@@ -262,7 +262,7 @@ class TeamDetailSerializer(TeamSerializer):
         return TeamMemberSerializer(members, many=True).data
 
 # ========================================
-# ৭. TeamMember Serializer
+# 7. TeamMember Serializer
 # ========================================
 
 class TeamMemberSerializer(serializers.ModelSerializer):
@@ -283,11 +283,11 @@ class TeamMemberSerializer(serializers.ModelSerializer):
         return f"{obj.user.first_name} {obj.user.last_name}".strip() or obj.user.username
 
 # ========================================
-# ৮. Project Serializer
+# 8. Project Serializer
 # ========================================
 
 class ProjectListSerializer(serializers.ModelSerializer):
-    """প্রজেক্টের সংক্ষিপ্ত তথ্য"""
+    """Project summary info"""
     organization_name = serializers.ReadOnlyField(source='organization.name')
     project_manager_username = serializers.ReadOnlyField(source='project_manager.username')
     status_display = serializers.ReadOnlyField(source='get_status_display')
@@ -304,7 +304,7 @@ class ProjectListSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 class ProjectDetailSerializer(serializers.ModelSerializer):
-    """প্রজেক্টের বিস্তারিত তথ্য"""
+    """Project detail info"""
     organization_name = serializers.ReadOnlyField(source='organization.name')
     department_name = serializers.ReadOnlyField(source='department.name')
     team_name = serializers.ReadOnlyField(source='team.name')
@@ -347,20 +347,20 @@ class ProjectCreateUpdateSerializer(serializers.ModelSerializer):
         ]
     
     def validate(self, data):
-        """শুরুর তারিখ শেষের তারিখের আগে কিনা চেক করে"""
+        """Checks if start date is before end date"""
         if data.get('start_date') and data.get('end_date') and data['start_date'] > data['end_date']:
             raise serializers.ValidationError({
-                'end_date': 'শেষের তারিখ শুরুর তারিখের পরে হতে হবে।'
+                'end_date': 'End date must be after start date.'
             })
         return data
     
     def validate_slug(self, value):
         if Project.objects.filter(slug=value).exists():
-            raise serializers.ValidationError("এই স্লাগ ইতিমধ্যে ব্যবহার করা হয়েছে।")
+            raise serializers.ValidationError("This slug is already in use.")
         return value
 
 # ========================================
-# ৯. ProjectMember Serializer
+# 9. ProjectMember Serializer
 # ========================================
 
 class ProjectMemberSerializer(serializers.ModelSerializer):
@@ -381,7 +381,7 @@ class ProjectMemberSerializer(serializers.ModelSerializer):
         return f"{obj.user.first_name} {obj.user.last_name}".strip() or obj.user.username
 
 # ========================================
-# ১০. Sprint Serializer
+# 10. Sprint Serializer
 # ========================================
 
 class SprintSerializer(serializers.ModelSerializer):
@@ -401,7 +401,7 @@ class SprintSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
     
     def get_progress_percentage(self, obj):
-        """অগ্রগতি শতকরা হিসাব করে"""
+        """Calculates progress percentage"""
         if obj.total_story_points > 0:
             return int((obj.completed_story_points / obj.total_story_points) * 100)
         return 0
@@ -415,19 +415,19 @@ class SprintCreateUpdateSerializer(serializers.ModelSerializer):
         ]
     
     def validate(self, data):
-        """শুরুর তারিখ শেষের তারিখের আগে কিনা চেক করে"""
+        """Checks if start date is before end date"""
         if data.get('start_date') and data.get('end_date') and data['start_date'] > data['end_date']:
             raise serializers.ValidationError({
-                'end_date': 'শেষের তারিখ শুরুর তারিখের পরে হতে হবে।'
+                'end_date': 'End date must be after start date.'
             })
         return data
 
 # ========================================
-# ১১. Task Serializer
+# 11. Task Serializer
 # ========================================
 
 class TaskListSerializer(serializers.ModelSerializer):
-    """টাস্কের সংক্ষিপ্ত তথ্য"""
+    """Task summary info"""
     project_name = serializers.ReadOnlyField(source='project.name')
     sprint_name = serializers.ReadOnlyField(source='sprint.name')
     assignee_username = serializers.ReadOnlyField(source='assignee.username')
@@ -446,7 +446,7 @@ class TaskListSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 class TaskDetailSerializer(serializers.ModelSerializer):
-    """টাস্কের বিস্তারিত তথ্য"""
+    """Task detail info"""
     project_name = serializers.ReadOnlyField(source='project.name')
     sprint_name = serializers.ReadOnlyField(source='sprint.name')
     assignee_username = serializers.ReadOnlyField(source='assignee.username')
@@ -495,7 +495,7 @@ class TaskCreateUpdateSerializer(serializers.ModelSerializer):
         ]
 
 # ========================================
-# ১২. SubTask Serializer
+# 12. SubTask Serializer
 # ========================================
 
 class SubTaskSerializer(serializers.ModelSerializer):
@@ -513,7 +513,7 @@ class SubTaskSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 # ========================================
-# ১৩. Checklist Serializer
+# 13. Checklist Serializer
 # ========================================
 
 class ChecklistItemSerializer(serializers.ModelSerializer):
@@ -553,11 +553,11 @@ class ChecklistCreateUpdateSerializer(serializers.ModelSerializer):
         fields = ['title', 'task']
 
 # ========================================
-# ১৪. Ticket Serializer
+# . Ticket Serializer
 # ========================================
 
 class TicketListSerializer(serializers.ModelSerializer):
-    """টিকেটের সংক্ষিপ্ত তথ্য"""
+    """Ticket summary info"""
     project_name = serializers.ReadOnlyField(source='project.name')
     task_title = serializers.ReadOnlyField(source='task.title')
     assignee_username = serializers.ReadOnlyField(source='assignee.username')
@@ -577,7 +577,7 @@ class TicketListSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 class TicketDetailSerializer(serializers.ModelSerializer):
-    """টিকেটের বিস্তারিত তথ্য"""
+    """Ticket detail info"""
     project_name = serializers.ReadOnlyField(source='project.name')
     task_title = serializers.ReadOnlyField(source='task.title')
     assignee_username = serializers.ReadOnlyField(source='assignee.username')
@@ -610,7 +610,7 @@ class TicketCreateUpdateSerializer(serializers.ModelSerializer):
         ]
 
 # ========================================
-# ১৫. Attachment Serializer
+# 15. Attachment Serializer
 # ========================================
 
 class AttachmentSerializer(serializers.ModelSerializer):
@@ -628,14 +628,14 @@ class AttachmentSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'file_size', 'uploaded_at', 'updated_at']
     
     def get_file_url(self, obj):
-        """ফাইলের URL রিটার্ন করে"""
+        """Returns file URL"""
         if obj.file:
             request = self.context.get('request')
             return request.build_absolute_uri(obj.file.url) if request else obj.file.url
         return None
     
     def get_file_size_display(self, obj):
-        """ফাইল সাইজ মানব-পাঠযোগ্য ফরম্যাটে দেখানোর জন্য"""
+        """Formats file size for human readability"""
         if obj.file_size < 1024:
             return f"{obj.file_size} B"
         elif obj.file_size < 1024 * 1024:
@@ -654,16 +654,16 @@ class AttachmentCreateSerializer(serializers.ModelSerializer):
         ]
     
     def create(self, validated_data):
-        """অ্যাটাচমেন্ট তৈরি করে ইউজার সেট করে"""
+        """Creates attachment and sets user"""
         validated_data['uploaded_by'] = self.context['request'].user
         return super().create(validated_data)
 
 # ========================================
-# ১৬. ড্যাশবোর্ড এবং রিপোর্ট Serializer
+# 16. Dashboardand Report Serializer
 # ========================================
 
 class DashboardStatsSerializer(serializers.Serializer):
-    """ড্যাশবোর্ডের পরিসংখ্যান দেখানোর জন্য"""
+    """To display dashboard statistics"""
     total_organizations = serializers.IntegerField()
     total_projects = serializers.IntegerField()
     total_tasks = serializers.IntegerField()
@@ -678,7 +678,7 @@ class DashboardStatsSerializer(serializers.Serializer):
     project_status_stats = serializers.JSONField(required=False)
 
 class OrganizationStatsSerializer(serializers.Serializer):
-    """অর্গানাইজেশন ভিত্তিক পরিসংখ্যান"""
+    """Organization based statistics"""
     organization_id = serializers.IntegerField()
     organization_name = serializers.CharField()
     total_projects = serializers.IntegerField()
@@ -686,7 +686,7 @@ class OrganizationStatsSerializer(serializers.Serializer):
     total_members = serializers.IntegerField()
 
 # ========================================
-# ১৭. লগইন এবং টোকেন Serializer
+# 17. Login and Token Serializer
 # ========================================
 
 class LoginSerializer(serializers.Serializer):
@@ -702,11 +702,11 @@ class TokenResponseSerializer(serializers.Serializer):
     permissions = serializers.ListField(child=serializers.CharField())
 
 # ========================================
-# ১৮. অ্যাক্টিভিটি লগ Serializer (অপশনাল)
+# 18. Activity Log Serializer
 # ========================================
 
 class ActivityLogSerializer(serializers.Serializer):
-    """এক্টিভিটি লগ দেখানোর জন্য (যদি আলাদা মডেল থাকে)"""
+    """ ( )"""
     id = serializers.IntegerField()
     user = serializers.CharField()
     action = serializers.CharField()

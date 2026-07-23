@@ -34,7 +34,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 # User Registration Serializer
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, style={'input_type': 'password'})
-    profile = ProfileSerializer(required=False)  # Profile ডেটা নেওয়ার জন্য
+    profile = ProfileSerializer(required=False) # Profile 
 
     class Meta:
         model = User
@@ -73,7 +73,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
     def to_representation(self, instance):
-        """রেসপন্সে Profile ডেটা দেখানোর জন্য"""
+        """ Profile """
         data = super().to_representation(instance)
         data['profile'] = ProfileSerializer(instance.profile).data
         return data

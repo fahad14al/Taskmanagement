@@ -23,7 +23,7 @@ class Role(models.Model):
 
 class Permission(models.Model):
     PERMISSION_CHOICES = [
-        ('can_view_dashboard', 'Dashboard '),
+        ('can_view_dashboard', 'Dashboard'),
         ('can_manage_users', 'Manage Users'),
         ('can_manage_projects', 'Manage Projects'),
         ('can_manage_tasks', 'Manage Tasks'),

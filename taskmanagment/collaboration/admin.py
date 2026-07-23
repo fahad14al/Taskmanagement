@@ -6,7 +6,7 @@ from .models import Comment, Mention, Notification, ActivityLog, Reaction
 
 
 # ========================================
-# ১. Comment Admin
+# . Comment Admin
 # ========================================
 
 @admin.register(Comment)
@@ -42,14 +42,14 @@ class CommentAdmin(admin.ModelAdmin):
     )
     
     def content_preview(self, obj):
-        """কমেন্ট কন্টেন্টের প্রিভিউ"""
+        """ """
         if len(obj.content) > 50:
             return f"{obj.content[:50]}..."
         return obj.content
     content_preview.short_description = "Content Preview"
     
     def content_object_display(self, obj):
-        """কোন অবজেক্টে কমেন্ট করা হয়েছে"""
+        """ """
         if obj.content_object:
             return format_html(
                 '<span style="color: blue;">{} ({})</span>',
@@ -60,7 +60,7 @@ class CommentAdmin(admin.ModelAdmin):
     content_object_display.short_description = "Content Object"
     
     def parent_display(self, obj):
-        """প্যারেন্ট কমেন্ট দেখায়"""
+        """ """
         if obj.parent:
             return format_html(
                 '<a href="/admin/collaboration/comment/{}/change/">{}</a>',
@@ -71,7 +71,7 @@ class CommentAdmin(admin.ModelAdmin):
     parent_display.short_description = "Parent Comment"
     
     def reply_count(self, obj):
-        """রিপ্লাইয়ের সংখ্যা"""
+        """Number of replies"""
         return obj.reply_count
     reply_count.short_description = "Replies"
     
@@ -89,7 +89,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 # ========================================
-# ২. Mention Admin
+# . Mention Admin
 # ========================================
 
 @admin.register(Mention)
@@ -124,7 +124,7 @@ class MentionAdmin(admin.ModelAdmin):
     )
     
     def content_object_display(self, obj):
-        """কোন অবজেক্টে মেনশন করা হয়েছে"""
+        """ """
         if obj.content_object:
             return format_html(
                 '<span style="color: green;">{} ({})</span>',
@@ -135,7 +135,7 @@ class MentionAdmin(admin.ModelAdmin):
     content_object_display.short_description = "Content Object"
     
     def read_at_display(self, obj):
-        """রিডের সময় দেখায়"""
+        """ """
         if obj.read_at:
             return obj.read_at.strftime("%Y-%m-%d %H:%M")
         return "-"
@@ -151,7 +151,7 @@ class MentionAdmin(admin.ModelAdmin):
 
 
 # ========================================
-# ৩. Notification Admin
+# . Notification Admin
 # ========================================
 
 @admin.register(Notification)
@@ -189,14 +189,14 @@ class NotificationAdmin(admin.ModelAdmin):
     )
     
     def title_preview(self, obj):
-        """টাইটেলের প্রিভিউ"""
+        """ """
         if len(obj.title) > 40:
             return f"{obj.title[:40]}..."
         return obj.title
     title_preview.short_description = "Title"
     
     def notification_type_display(self, obj):
-        """নোটিফিকেশন টাইপ দেখায়"""
+        """ """
         return format_html(
             '<span style="background-color: #007bff; color: white; padding: 2px 8px; border-radius: 12px;">{}</span>',
             obj.get_notification_type_display()
@@ -204,7 +204,7 @@ class NotificationAdmin(admin.ModelAdmin):
     notification_type_display.short_description = "Type"
     
     def priority_display(self, obj):
-        """প্রায়োরিটি দেখায়"""
+        """ """
         colors = {
             'low': '#28a745',
             'medium': '#ffc107',
@@ -235,7 +235,7 @@ class NotificationAdmin(admin.ModelAdmin):
 
 
 # ========================================
-# ৪. ActivityLog Admin
+# . ActivityLog Admin
 # ========================================
 
 @admin.register(ActivityLog)
@@ -279,7 +279,7 @@ class ActivityLogAdmin(admin.ModelAdmin):
     )
     
     def actor_display(self, obj):
-        """Actor দেখায়"""
+        """Actor """
         if obj.actor:
             return format_html(
                 '<a href="/admin/auth/user/{}/change/">{}</a>',
@@ -290,7 +290,7 @@ class ActivityLogAdmin(admin.ModelAdmin):
     actor_display.short_description = "Actor"
     
     def action_type_display(self, obj):
-        """Action Type দেখায়"""
+        """Action Type """
         colors = {
             'create': '#28a745',
             'update': '#007bff',
@@ -317,14 +317,14 @@ class ActivityLogAdmin(admin.ModelAdmin):
     action_type_display.short_description = "Action"
     
     def action_description_short(self, obj):
-        """Action Description এর প্রিভিউ"""
+        """Action Description """
         if len(obj.action_description) > 50:
             return f"{obj.action_description[:50]}..."
         return obj.action_description
     action_description_short.short_description = "Description"
     
     def content_object_display(self, obj):
-        """কোন অবজেক্টে অ্যাকশন হয়েছে"""
+        """ """
         if obj.content_object:
             return format_html(
                 '<span style="color: purple;">{} ({})</span>',
@@ -335,27 +335,27 @@ class ActivityLogAdmin(admin.ModelAdmin):
     content_object_display.short_description = "Content Object"
     
     def organization_display(self, obj):
-        """Organization দেখায়"""
+        """Organization """
         if obj.organization:
             return obj.organization.name
         return "-"
     organization_display.short_description = "Organization"
     
     def has_delete_permission(self, request, obj=None):
-        """Delete পারমিশন - Admin অ্যাক্টিভিটি লগ ডিলিট করতে পারে না"""
+        """Delete - Admin """
         return False
     
     def has_add_permission(self, request):
-        """Add পারমিশন - শুধু সিস্টেম অ্যাক্টিভিটি লগ তৈরি করে"""
+        """Add - """
         return False
     
     def has_change_permission(self, request, obj=None):
-        """Change পারমিশন - অ্যাক্টিভিটি লগ পরিবর্তন করা যায় না"""
+        """Change - """
         return False
 
 
 # ========================================
-# ৫. Reaction Admin
+# . Reaction Admin
 # ========================================
 
 @admin.register(Reaction)
@@ -384,18 +384,18 @@ class ReactionAdmin(admin.ModelAdmin):
     )
     
     def reaction_type_display(self, obj):
-        """Reaction Type দেখায়"""
+        """Reaction Type """
         emojis = {
-            'like': '👍',
-            'love': '❤️',
-            'laugh': '😂',
-            'sad': '😢',
-            'angry': '😡',
-            'wow': '😮',
-            'applause': '👏',
-            'thumbs_down': '👎',
-            'rocket': '🚀',
-            'fire': '🔥',
+            'like': 'Like',
+            'love': 'Love',
+            'laugh': 'Laugh',
+            'sad': 'Sad',
+            'angry': 'Angry',
+            'wow': 'Wow',
+            'applause': 'Applause',
+            'thumbs_down': 'Dislike',
+            'rocket': 'Rocket',
+            'fire': 'Fire',
         }
         emoji = emojis.get(obj.reaction_type, '')
         return format_html(
@@ -406,7 +406,7 @@ class ReactionAdmin(admin.ModelAdmin):
     reaction_type_display.short_description = "Reaction"
     
     def content_object_display(self, obj):
-        """কোন অবজেক্টে রিঅ্যাকশন করা হয়েছে"""
+        """ """
         if obj.content_object:
             return format_html(
                 '<span style="color: orange;">{} ({})</span>',
@@ -420,7 +420,7 @@ class ReactionAdmin(admin.ModelAdmin):
 
 
 # ========================================
-# ৬. Admin Panel Customization
+# . Admin Panel Customization
 # ========================================
 
 admin.site.site_header = "Collaboration Admin Panel"

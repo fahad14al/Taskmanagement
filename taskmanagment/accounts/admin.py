@@ -70,10 +70,10 @@ class CustomUserAdmin(UserAdmin):
     """
     default UserAdmin adding customisely Profile Inline
     """
-    inlines = [ProfileInline]  # Profile Inline যোগ করুন
+    inlines = [ProfileInline] # Profile Inline 
     list_display = ['id', 'username', 'email', 'first_name', 'last_name', 
                    'is_staff', 'is_active', 'get_role']
-    list_filter = ['is_staff', 'is_active', 'profile__role']  # Role দিয়ে ফিল্টার
+    list_filter = ['is_staff', 'is_active', 'profile__role'] # Role 
     search_fields = ['username', 'email', 'first_name', 'last_name']
     ordering = ['-date_joined']
     

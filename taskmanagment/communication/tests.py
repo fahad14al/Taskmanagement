@@ -18,11 +18,11 @@ from .serializers import (
 
 
 # ========================================
-# ১. Model Tests
+# . Model Tests
 # ========================================
 
 class ChatRoomModelTest(TestCase):
-    """ChatRoom মডেল টেস্ট"""
+    """ChatRoom """
 
     def setUp(self):
         self.user1 = User.objects.create_user(
@@ -35,7 +35,7 @@ class ChatRoomModelTest(TestCase):
         )
 
     def test_create_direct_chat(self):
-        """Direct Chat তৈরি টেস্ট"""
+        """Direct Chat """
         from communication.models import get_or_create_direct_chat
 
         chat_room = get_or_create_direct_chat(self.user1, self.user2)
@@ -46,7 +46,7 @@ class ChatRoomModelTest(TestCase):
         self.assertIn(self.user2, chat_room.members.all())
 
     def test_get_or_create_direct_chat_existing(self):
-        """বিদ্যমান Direct Chat পাওয়া টেস্ট"""
+        """ Direct Chat """
         from communication.models import get_or_create_direct_chat
 
         chat1 = get_or_create_direct_chat(self.user1, self.user2)
@@ -56,7 +56,7 @@ class ChatRoomModelTest(TestCase):
         self.assertEqual(chat1.members.count(), 2)
 
     def test_create_group_chat(self):
-        """Group Chat তৈরি টেস্ট"""
+        """Group Chat """
         from communication.models import get_group_chat
 
         user3 = User.objects.create_user(username='user3', password='testpass123')
@@ -74,7 +74,7 @@ class ChatRoomModelTest(TestCase):
         self.assertIn(self.user1, chat_room.admins.all())
 
     def test_chat_room_str_method(self):
-        """__str__ মেথড টেস্ট"""
+        """__str__ """
         from communication.models import get_or_create_direct_chat
 
         chat_room = get_or_create_direct_chat(self.user1, self.user2)
@@ -82,7 +82,7 @@ class ChatRoomModelTest(TestCase):
         self.assertEqual(str(chat_room), expected_str)
 
     def test_get_other_member(self):
-        """get_other_member মেথড টেস্ট"""
+        """get_other_member """
         from communication.models import get_or_create_direct_chat
 
         chat_room = get_or_create_direct_chat(self.user1, self.user2)
@@ -91,19 +91,19 @@ class ChatRoomModelTest(TestCase):
         self.assertEqual(other, self.user2)
 
     def test_get_member_count(self):
-        """get_member_count মেথড টেস্ট"""
+        """get_member_count """
         from communication.models import get_or_create_direct_chat
 
         chat_room = get_or_create_direct_chat(self.user1, self.user2)
         self.assertEqual(chat_room.get_member_count(), 2)
 
     def test_get_unread_count(self):
-        """get_unread_count মেথড টেস্ট"""
+        """get_unread_count """
         from communication.models import get_or_create_direct_chat
 
         chat_room = get_or_create_direct_chat(self.user1, self.user2)
 
-        # একটি মেসেজ পাঠান
+        # 
         from communication.models import Message
         message = Message.objects.create(
             chat_room=chat_room,
@@ -111,17 +111,17 @@ class ChatRoomModelTest(TestCase):
             content='Hello'
         )
 
-        # user2-এর জন্য আনরিড কাউন্ট চেক
+        # user2- 
         unread_count = chat_room.get_unread_count(self.user2)
         self.assertEqual(unread_count, 1)
 
-        # user1-এর জন্য আনরিড কাউন্ট চেক (সেন্ডার নিজে পড়েছে)
+        # user1- ( )
         unread_count = chat_room.get_unread_count(self.user1)
         self.assertEqual(unread_count, 0)
 
 
 class MessageModelTest(TestCase):
-    """Message মডেল টেস্ট"""
+    """Message """
 
     def setUp(self):
         self.user1 = User.objects.create_user(
@@ -137,7 +137,7 @@ class MessageModelTest(TestCase):
         self.chat_room = get_or_create_direct_chat(self.user1, self.user2)
 
     def test_create_message(self):
-        """Message তৈরি টেস্ট"""
+        """Message """
         from communication.models import Message
 
         message = Message.objects.create(
@@ -153,7 +153,7 @@ class MessageModelTest(TestCase):
         self.assertFalse(message.is_deleted)
 
     def test_message_with_attachments(self):
-        """Attachment সহ Message টেস্ট"""
+        """Attachment Message """
         from communication.models import Message
 
         attachments = [
@@ -172,7 +172,7 @@ class MessageModelTest(TestCase):
         self.assertEqual(len(message.attachments), 2)
 
     def test_message_read_records_created(self):
-        """Message তৈরি হলে MessageRead রেকর্ড তৈরি হয় কিনা"""
+        """Message MessageRead """
         from communication.models import Message, MessageRead
 
         message = Message.objects.create(
@@ -181,14 +181,14 @@ class MessageModelTest(TestCase):
             content='Test message'
         )
 
-        # সেন্ডার নিজে পড়েছে
+        # 
         self.assertTrue(MessageRead.objects.filter(
             message=message,
             user=self.user1,
             is_read=True
         ).exists())
 
-        # অন্য ইউজারের জন্য আনরিড
+        # 
         self.assertTrue(MessageRead.objects.filter(
             message=message,
             user=self.user2,
@@ -196,7 +196,7 @@ class MessageModelTest(TestCase):
         ).exists())
 
     def test_soft_delete_message(self):
-        """Message সফট ডিলিট টেস্ট"""
+        """Message """
         from communication.models import Message
 
         message = Message.objects.create(
@@ -213,7 +213,7 @@ class MessageModelTest(TestCase):
         self.assertIsNotNone(message.deleted_at)
 
     def test_message_str_method(self):
-        """__str__ মেথড টেস্ট"""
+        """__str__ """
         from communication.models import Message
 
         message = Message.objects.create(
@@ -227,7 +227,7 @@ class MessageModelTest(TestCase):
 
 
 class PresenceModelTest(TestCase):
-    """Presence মডেল টেস্ট"""
+    """Presence """
 
     def setUp(self):
         self.user = User.objects.create_user(
@@ -237,7 +237,7 @@ class PresenceModelTest(TestCase):
         self.presence = self.user.presence
 
     def test_presence_created_automatically(self):
-        """User তৈরি হলে Presence তৈরি হয় কিনা"""
+        """User Presence """
         new_user = User.objects.create_user(
             username='newuser',
             password='testpass123'
@@ -246,14 +246,14 @@ class PresenceModelTest(TestCase):
         self.assertEqual(new_user.presence.status, 'offline')
 
     def test_update_status(self):
-        """status আপডেট টেস্ট"""
+        """status """
         self.presence.update_status('online', custom_status='Working')
 
         self.assertEqual(self.presence.status, 'online')
         self.assertEqual(self.presence.custom_status, 'Working')
 
     def test_is_online(self):
-        """is_online মেথড টেস্ট"""
+        """is_online """
         self.presence.status = 'online'
         self.presence.save()
 
@@ -265,10 +265,10 @@ class PresenceModelTest(TestCase):
         self.assertFalse(self.presence.is_online())
 
     def test_update_activity(self):
-        """update_activity মেথড টেস্ট"""
+        """update_activity """
         old_activity = self.presence.last_activity
 
-        # একটু সময় অপেক্ষা করুন
+        # 
         import time
         time.sleep(1)
 
@@ -278,11 +278,11 @@ class PresenceModelTest(TestCase):
 
 
 # ========================================
-# ২. Serializer Tests
+# . Serializer Tests
 # ========================================
 
 class ChatRoomSerializerTest(APITestCase):
-    """ChatRoom Serializer টেস্ট"""
+    """ChatRoom Serializer """
 
     def setUp(self):
         self.user1 = User.objects.create_user(
@@ -304,7 +304,7 @@ class ChatRoomSerializerTest(APITestCase):
         from communication.models import get_or_create_direct_chat
         self.chat_room = get_or_create_direct_chat(self.user1, self.user2)
 
-        # Message তৈরি
+        # Message 
         from communication.models import Message
         self.message = Message.objects.create(
             chat_room=self.chat_room,
@@ -313,7 +313,7 @@ class ChatRoomSerializerTest(APITestCase):
         )
 
     def test_chat_room_list_serializer(self):
-        """ChatRoomListSerializer টেস্ট"""
+        """ChatRoomListSerializer """
         serializer = ChatRoomListSerializer(
             self.chat_room,
             context={'request': self.request}
@@ -326,7 +326,7 @@ class ChatRoomSerializerTest(APITestCase):
         self.assertIsNotNone(data['last_message'])
 
     def test_chat_room_detail_serializer(self):
-        """ChatRoomDetailSerializer টেস্ট"""
+        """ChatRoomDetailSerializer """
         serializer = ChatRoomDetailSerializer(
             self.chat_room,
             context={'request': self.request}
@@ -340,7 +340,7 @@ class ChatRoomSerializerTest(APITestCase):
         self.assertEqual(len(data['recent_messages']), 1)
 
     def test_chat_room_create_serializer(self):
-        """ChatRoomCreateSerializer টেস্ট"""
+        """ChatRoomCreateSerializer """
         from communication.serializers import ChatRoomCreateSerializer
 
         data = {
@@ -363,7 +363,7 @@ class ChatRoomSerializerTest(APITestCase):
         self.assertEqual(chat_room.admins.count(), 2)   # user1 + user2
 
     def test_chat_room_create_serializer_invalid(self):
-        """Invalid ChatRoomCreateSerializer টেস্ট"""
+        """Invalid ChatRoomCreateSerializer """
         from communication.serializers import ChatRoomCreateSerializer
 
         data = {
@@ -382,7 +382,7 @@ class ChatRoomSerializerTest(APITestCase):
 
 
 class MessageSerializerTest(APITestCase):
-    """Message Serializer টেস্ট"""
+    """Message Serializer """
 
     def setUp(self):
         self.user1 = User.objects.create_user(
@@ -405,7 +405,7 @@ class MessageSerializerTest(APITestCase):
         self.chat_room = get_or_create_direct_chat(self.user1, self.user2)
 
     def test_message_serializer(self):
-        """MessageSerializer টেস্ট"""
+        """MessageSerializer """
         from communication.models import Message
 
         message = Message.objects.create(
@@ -426,7 +426,7 @@ class MessageSerializerTest(APITestCase):
         self.assertIn('time_ago', data)
 
     def test_message_create_serializer(self):
-        """MessageCreateSerializer টেস্ট"""
+        """MessageCreateSerializer """
         from communication.serializers import MessageCreateSerializer
 
         data = {
@@ -446,7 +446,7 @@ class MessageSerializerTest(APITestCase):
         self.assertEqual(message.sender, self.user1)
 
     def test_message_create_serializer_with_attachments(self):
-        """Attachment সহ MessageCreateSerializer টেস্ট"""
+        """Attachment MessageCreateSerializer """
         from communication.serializers import MessageCreateSerializer
 
         data = {
@@ -468,7 +468,7 @@ class MessageSerializerTest(APITestCase):
         self.assertEqual(message.attachments[0]['name'], 'file.pdf')
 
     def test_message_create_serializer_empty_content(self):
-        """Empty content সহ MessageCreateSerializer টেস্ট"""
+        """Empty content MessageCreateSerializer """
         from communication.serializers import MessageCreateSerializer
 
         data = {
@@ -486,7 +486,7 @@ class MessageSerializerTest(APITestCase):
 
 
 class PresenceSerializerTest(APITestCase):
-    """Presence Serializer টেস্ট"""
+    """Presence Serializer """
 
     def setUp(self):
         self.user = User.objects.create_user(
@@ -502,7 +502,7 @@ class PresenceSerializerTest(APITestCase):
         self.request.user = self.user
 
     def test_presence_serializer(self):
-        """PresenceSerializer টেস্ট"""
+        """PresenceSerializer """
         presence = self.user.presence
         presence.update_status('online')
 
@@ -518,7 +518,7 @@ class PresenceSerializerTest(APITestCase):
         self.assertIn('last_activity_ago', data)
 
     def test_presence_update_serializer(self):
-        """PresenceUpdateSerializer টেস্ট"""
+        """PresenceUpdateSerializer """
         from communication.serializers import PresenceUpdateSerializer
 
         data = {
@@ -540,4 +540,4 @@ class PresenceSerializerTest(APITestCase):
 
 
 # ========================================
-# ৩. API Tests
+# . API Tests

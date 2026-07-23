@@ -20,7 +20,7 @@ urlpatterns = [
     path('profile/update/', UpdateProfileView.as_view(), name='profile-update'),
     path('user/<int:user_id>/', UserDetailView.as_view(), name='user-detail'),
     
-    # Role ও Permission
+    # Role Permission
     path('', include(router.urls)),
     
     # Role based dashboard views

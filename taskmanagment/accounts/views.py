@@ -120,7 +120,7 @@ class CustomLoginView(APIView):
 
 class UserProfileView(APIView):
     """
-    নিজের প্রোফাইল দেখা
+      
     """
     permission_classes = [IsAuthenticated]
 
@@ -130,9 +130,9 @@ class UserProfileView(APIView):
 
 class UpdateProfileView(APIView):
     """
-    নিজের প্রোফাইল আপডেট করা (শুধু মালিক)
+     Profile update ( )
     """
-    permission_classes = [IsAuthenticated, IsOwner]  # ← এখানে IsOwner ব্যবহার
+    permission_classes = [IsAuthenticated, IsOwner] # IsOwner 
 
     def put(self, request):
         user = request.user
@@ -150,7 +150,7 @@ class RoleViewSet(viewsets.ModelViewSet):
     """
     queryset = Role.objects.all().order_by('id')
     serializer_class = RoleSerializer
-    permission_classes = [IsAuthenticated, IsAdmin]  # ← এখানে IsAdmin ব্যবহার
+    permission_classes = [IsAuthenticated, IsAdmin] # IsAdmin 
 
 class PermissionViewSet(viewsets.ModelViewSet):
     """
@@ -158,7 +158,7 @@ class PermissionViewSet(viewsets.ModelViewSet):
     """
     queryset = Permission.objects.all().order_by('id')
     serializer_class = PermissionSerializer
-    permission_classes = [IsAuthenticated, IsAdmin]  # ← এখানে IsAdmin ব্যবহার
+    permission_classes = [IsAuthenticated, IsAdmin] # IsAdmin 
 
 # Role and Permission Management Views only Admin
 
@@ -166,7 +166,7 @@ class AdminDashboardView(APIView):
     """
     only Admin's dashboard
     """
-    permission_classes = [IsAuthenticated, IsAdmin]  # ← এখানে IsAdmin ব্যবহার
+    permission_classes = [IsAuthenticated, IsAdmin] # IsAdmin 
 
     def get(self, request):
         return Response({
@@ -181,7 +181,7 @@ class ManagerDashboardView(APIView):
     """
     only Manager's dashboard
     """
-    permission_classes = [IsAuthenticated, IsManager]  # ← এখানে IsManager ব্যবহার
+    permission_classes = [IsAuthenticated, IsManager] # IsManager 
 
     def get(self, request):
         return Response({
@@ -195,7 +195,7 @@ class TeamLeadDashboardView(APIView):
     """
     Team Lead and higher-level Role's dashboard
     """
-    permission_classes = [IsAuthenticated, IsTeamLead | IsManager | IsAdmin]  # ← combined
+    permission_classes = [IsAuthenticated, IsTeamLead | IsManager | IsAdmin]  # combined
 
     def get(self, request):
         return Response({
@@ -209,13 +209,13 @@ class DeveloperDashboardView(APIView):
     """
     only Developer's dashboard
     """
-    permission_classes = [IsAuthenticated, IsDeveloper]  # ← এখানে IsDeveloper ব্যবহার
+    permission_classes = [IsAuthenticated, IsDeveloper] # IsDeveloper 
 
     def get(self, request):
         return Response({
             "message": "Welcome to Developer Dashboard",
             "your_role": request.user.profile.role.name,
-            "assigned_tasks": 3,  # উদাহরণ
+            "assigned_tasks": 3, # 
             "permissions": list(request.user.profile.permissions.values_list('name', flat=True))
         })
 
@@ -223,7 +223,7 @@ class TesterDashboardView(APIView):
     """
     only Tester's dashboard
     """
-    permission_classes = [IsAuthenticated, IsTester]  # ← এখানে IsTester ব্যবহার
+    permission_classes = [IsAuthenticated, IsTester] # IsTester 
 
     def get(self, request):
         return Response({
@@ -237,7 +237,7 @@ class DevOpsDashboardView(APIView):
     """
     only DevOps's dashboard
     """
-    permission_classes = [IsAuthenticated, IsDevOps]  # ← এখানে IsDevOps ব্যবহার
+    permission_classes = [IsAuthenticated, IsDevOps] # IsDevOps 
 
     def get(self, request):
         return Response({
@@ -253,7 +253,7 @@ class TaskManagementView(APIView):
     """
     the 'can_manage_tasks' permission is required for these users
     """
-    permission_classes = [IsAuthenticated, has_permission('can_manage_tasks')]  # ← এখানে has_permission ব্যবহার
+    permission_classes = [IsAuthenticated, has_permission('can_manage_tasks')] # has_permission 
 
     def get(self, request):
         return Response({
@@ -278,7 +278,7 @@ class DeploymentView(APIView):
     """
     DevOps and Admin users only
     """
-    permission_classes = [IsAuthenticated, (IsDevOps | IsAdmin)]  # ← combined
+    permission_classes = [IsAuthenticated, (IsDevOps | IsAdmin)]  # combined
 
     def get(self, request):
         return Response({

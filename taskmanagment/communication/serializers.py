@@ -7,11 +7,11 @@ from .models import ChatRoom, ChatRoomMember, Message, MessageRead, Presence
 
 
 # ========================================
-# ১. Presence Serializer
+# . Presence Serializer
 # ========================================
 
 class PresenceSerializer(serializers.ModelSerializer):
-    """Presence এর জন্য Serializer"""
+    """Presence Serializer"""
     username = serializers.ReadOnlyField(source='user.username')
     full_name = serializers.SerializerMethodField()
     profile_picture = serializers.SerializerMethodField()
@@ -62,7 +62,7 @@ class PresenceSerializer(serializers.ModelSerializer):
 
 
 class PresenceUpdateSerializer(serializers.ModelSerializer):
-    """Presence আপডেট করার জন্য Serializer"""
+    """Presence Serializer"""
 
     class Meta:
         model = Presence
@@ -70,11 +70,11 @@ class PresenceUpdateSerializer(serializers.ModelSerializer):
 
 
 # ========================================
-# ২. ChatRoomMember Serializer
+# . ChatRoomMember Serializer
 # ========================================
 
 class ChatRoomMemberSerializer(serializers.ModelSerializer):
-    """ChatRoomMember এর জন্য Serializer"""
+    """ChatRoomMember Serializer"""
     username = serializers.ReadOnlyField(source='user.username')
     full_name = serializers.SerializerMethodField()
     profile_picture = serializers.SerializerMethodField()
@@ -103,7 +103,7 @@ class ChatRoomMemberSerializer(serializers.ModelSerializer):
         return None
 
     def get_unread_count(self, obj):
-        """ইউজারের জন্য আনরিড মেসেজ কাউন্ট"""
+        """ """
         request = self.context.get('request')
         if request and request.user.is_authenticated:
             return obj.chat_room.get_unread_count(request.user)
@@ -111,11 +111,11 @@ class ChatRoomMemberSerializer(serializers.ModelSerializer):
 
 
 # ========================================
-# ৩. MessageRead Serializer
+# . MessageRead Serializer
 # ========================================
 
 class MessageReadSerializer(serializers.ModelSerializer):
-    """MessageRead এর জন্য Serializer"""
+    """MessageRead Serializer"""
     username = serializers.ReadOnlyField(source='user.username')
     full_name = serializers.SerializerMethodField()
 
@@ -132,11 +132,11 @@ class MessageReadSerializer(serializers.ModelSerializer):
 
 
 # ========================================
-# ৪. Message Serializer
+# . Message Serializer
 # ========================================
 
 class MessageSerializer(serializers.ModelSerializer):
-    """Message এর জন্য Serializer"""
+    """Message Serializer"""
     sender_username = serializers.ReadOnlyField(source='sender.username')
     sender_full_name = serializers.SerializerMethodField()
     sender_profile_picture = serializers.SerializerMethodField()
@@ -216,7 +216,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class MessageCreateSerializer(serializers.ModelSerializer):
-    """Message তৈরি করার জন্য Serializer"""
+    """Message Serializer"""
 
     class Meta:
         model = Message
@@ -236,7 +236,7 @@ class MessageCreateSerializer(serializers.ModelSerializer):
 
 
 class MessageUpdateSerializer(serializers.ModelSerializer):
-    """Message আপডেট করার জন্য Serializer"""
+    """Message Serializer"""
 
     class Meta:
         model = Message
@@ -252,11 +252,11 @@ class MessageUpdateSerializer(serializers.ModelSerializer):
 
 
 # ========================================
-# ৫. ChatRoom Serializer
+# . ChatRoom Serializer
 # ========================================
 
 class ChatRoomListSerializer(serializers.ModelSerializer):
-    """ChatRoom লিস্টের জন্য Serializer"""
+    """ChatRoom Serializer"""
     room_type_display = serializers.ReadOnlyField(source='get_room_type_display')
     member_count = serializers.SerializerMethodField()
     last_message = serializers.SerializerMethodField()
@@ -294,7 +294,7 @@ class ChatRoomListSerializer(serializers.ModelSerializer):
         return 0
 
     def get_other_member(self, obj):
-        """Direct চ্যাটের জন্য অন্য ইউজার"""
+        """Direct """
         request = self.context.get('request')
         if request and request.user.is_authenticated and obj.room_type == 'direct':
             other = obj.get_other_member(request.user)
@@ -309,7 +309,7 @@ class ChatRoomListSerializer(serializers.ModelSerializer):
 
 
 class ChatRoomDetailSerializer(serializers.ModelSerializer):
-    """ChatRoom বিস্তারিত তথ্যের জন্য Serializer"""
+    """ChatRoom Serializer"""
     room_type_display = serializers.ReadOnlyField(source='get_room_type_display')
     created_by_username = serializers.ReadOnlyField(source='created_by.username')
     members = ChatRoomMemberSerializer(
@@ -370,7 +370,7 @@ class ChatRoomDetailSerializer(serializers.ModelSerializer):
 
 
 class ChatRoomCreateSerializer(serializers.ModelSerializer):
-    """ChatRoom তৈরি করার জন্য Serializer"""
+    """ChatRoom Serializer"""
     member_ids = serializers.ListField(
         child=serializers.IntegerField(),
         write_only=True,
@@ -422,17 +422,17 @@ class ChatRoomCreateSerializer(serializers.ModelSerializer):
         content_type = validated_data.pop('content_type', None)
         object_id = validated_data.pop('object_id', None)
 
-        # ChatRoom তৈরি
+        # ChatRoom 
         validated_data['created_by'] = self.context['request'].user
         chat_room = ChatRoom.objects.create(**validated_data)
 
-        # Content Object সেট
+        # Content Object 
         if content_type and object_id:
             chat_room.content_type = content_type
             chat_room.object_id = object_id
             chat_room.save()
 
-        # সদস্য যোগ করুন
+        # Members 
         for user_id in member_ids:
             try:
                 user = User.objects.get(id=user_id)
@@ -448,7 +448,7 @@ class ChatRoomCreateSerializer(serializers.ModelSerializer):
             except User.DoesNotExist:
                 continue
 
-        # সৃষ্টিকর্তাকে অ্যাডমিন হিসেবে যোগ করুন
+        # Add creator as admin
         created_by = self.context['request'].user
         if created_by.id not in member_ids:
             ChatRoomMember.objects.create(
@@ -463,7 +463,7 @@ class ChatRoomCreateSerializer(serializers.ModelSerializer):
 
 
 class ChatRoomUpdateSerializer(serializers.ModelSerializer):
-    """ChatRoom আপডেট করার জন্য Serializer"""
+    """ChatRoom Serializer"""
 
     class Meta:
         model = ChatRoom
@@ -471,11 +471,11 @@ class ChatRoomUpdateSerializer(serializers.ModelSerializer):
 
 
 # ========================================
-# ৬. ChatRoomMember Manage Serializer
+# . ChatRoomMember Manage Serializer
 # ========================================
 
 class AddMemberSerializer(serializers.Serializer):
-    """ChatRoom এ সদস্য যোগ করার Serializer"""
+    """ChatRoom Members Serializer"""
     user_id = serializers.IntegerField(required=True)
     role = serializers.ChoiceField(
         choices=ChatRoomMember.ROLE_CHOICES,
@@ -491,16 +491,16 @@ class AddMemberSerializer(serializers.Serializer):
 
 
 class RemoveMemberSerializer(serializers.Serializer):
-    """ChatRoom থেকে সদস্য সরানোর Serializer"""
+    """ChatRoom Members Serializer"""
     user_id = serializers.IntegerField(required=True)
 
 
 # ========================================
-# ৭. Dashboard Serializer
+# . DashboardSerializer
 # ========================================
 
 class ChatStatsSerializer(serializers.Serializer):
-    """Chat পরিসংখ্যান"""
+    """Chat """
     total_chat_rooms = serializers.IntegerField()
     total_messages = serializers.IntegerField()
     unread_messages = serializers.IntegerField()
@@ -510,11 +510,11 @@ class ChatStatsSerializer(serializers.Serializer):
 
 
 # ========================================
-# ৮. Helper Serializers
+# . Helper Serializers
 # ========================================
 
 class MarkReadSerializer(serializers.Serializer):
-    """মেসেজ রিড মার্ক করার Serializer"""
+    """ Serializer"""
     message_ids = serializers.ListField(
         child=serializers.IntegerField(),
         required=False,
@@ -539,6 +539,6 @@ class MarkReadSerializer(serializers.Serializer):
 
 
 class TypingIndicatorSerializer(serializers.Serializer):
-    """টাইপিং ইন্ডিকেটরের জন্য Serializer"""
+    """ Serializer"""
     chat_room_id = serializers.IntegerField(required=True)
     is_typing = serializers.BooleanField(required=True)

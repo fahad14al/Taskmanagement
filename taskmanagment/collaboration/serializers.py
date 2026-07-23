@@ -7,11 +7,11 @@ from .models import Comment, Mention, Notification, ActivityLog, Reaction
 
 
 # ========================================
-# ১. Comment Serializer
+# . Comment Serializer
 # ========================================
 
 class CommentSerializer(serializers.ModelSerializer):
-    """Comment এর জন্য Serializer"""
+    """Comment Serializer"""
     author_username = serializers.ReadOnlyField(source='author.username')
     author_full_name = serializers.SerializerMethodField()
     author_profile_picture = serializers.SerializerMethodField()
@@ -32,11 +32,11 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'author', 'created_at', 'updated_at', 'is_edited']
 
     def get_author_full_name(self, obj):
-        """Author এর পুরো নাম"""
+        """Author """
         return f"{obj.author.first_name} {obj.author.last_name}".strip() or obj.author.username
 
     def get_author_profile_picture(self, obj):
-        """Author এর প্রোফাইল পিকচার URL"""
+        """Author URL"""
         if hasattr(obj.author, 'profile') and obj.author.profile.profile_picture:
             request = self.context.get('request')
             if request:
@@ -45,29 +45,29 @@ class CommentSerializer(serializers.ModelSerializer):
         return None
 
     def get_reply_count(self, obj):
-        """রিপ্লাইয়ের সংখ্যা"""
+        """Number of replies"""
         return obj.reply_count
 
     def get_is_owner(self, obj):
-        """বর্তমান ইউজার মন্তব্যের মালিক কিনা"""
+        """ """
         request = self.context.get('request')
         if request and request.user.is_authenticated:
             return obj.is_owner(request.user)
         return False
 
     def get_content_object_type(self, obj):
-        """কোন ধরনের অবজেক্টে কমেন্ট করা হয়েছে"""
+        """ """
         if obj.content_object:
             return obj.content_object._meta.verbose_name
         return None
 
     def get_content_object_repr(self, obj):
-        """অবজেক্টের স্ট্রিং রিপ্রেজেন্টেশন"""
+        """ """
         return str(obj.content_object) if obj.content_object else None
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
-    """Comment তৈরি করার জন্য Serializer"""
+    """Comment Serializer"""
     content_type = serializers.CharField(write_only=True)
     object_id = serializers.IntegerField(write_only=True)
 
@@ -76,7 +76,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
         fields = ['content', 'parent', 'attachment', 'content_type', 'object_id']
 
     def validate_content_type(self, value):
-        """Content Type ভ্যালিডেশন"""
+        """Content Type """
         try:
             app_label, model = value.split('.', 1)
             content_type = ContentType.objects.get(app_label=app_label, model=model)
@@ -85,7 +85,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(f"Invalid content type: {value}")
 
     def create(self, validated_data):
-        """কমেন্ট তৈরি"""
+        """ """
         content_type = validated_data.pop('content_type')
         object_id = validated_data.pop('object_id')
         validated_data['author'] = self.context['request'].user
@@ -94,13 +94,13 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
 
 class CommentUpdateSerializer(serializers.ModelSerializer):
-    """Comment আপডেট করার জন্য Serializer"""
+    """Comment Serializer"""
     class Meta:
         model = Comment
         fields = ['content', 'attachment']
 
     def update(self, instance, validated_data):
-        """কমেন্ট আপডেট"""
+        """ """
         instance.content = validated_data.get('content', instance.content)
         instance.attachment = validated_data.get('attachment', instance.attachment)
         instance.is_edited = True
@@ -109,11 +109,11 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
 
 
 # ========================================
-# ২. Mention Serializer
+# . Mention Serializer
 # ========================================
 
 class MentionSerializer(serializers.ModelSerializer):
-    """Mention এর জন্য Serializer"""
+    """Mention Serializer"""
     mentioned_user_username = serializers.ReadOnlyField(source='mentioned_user.username')
     mentioned_user_full_name = serializers.SerializerMethodField()
     mentioned_by_username = serializers.ReadOnlyField(source='mentioned_by.username')
@@ -151,7 +151,7 @@ class MentionSerializer(serializers.ModelSerializer):
 
 
 class MentionCreateSerializer(serializers.ModelSerializer):
-    """Mention তৈরি করার জন্য Serializer"""
+    """Mention Serializer"""
     content_type = serializers.CharField(write_only=True)
     object_id = serializers.IntegerField(write_only=True)
 
@@ -176,11 +176,11 @@ class MentionCreateSerializer(serializers.ModelSerializer):
 
 
 # ========================================
-# ৩. Notification Serializer
+# . Notification Serializer
 # ========================================
 
 class NotificationSerializer(serializers.ModelSerializer):
-    """Notification এর জন্য Serializer"""
+    """Notification Serializer"""
     recipient_username = serializers.ReadOnlyField(source='recipient.username')
     recipient_full_name = serializers.SerializerMethodField()
     created_by_username = serializers.ReadOnlyField(source='created_by.username')
@@ -208,7 +208,7 @@ class NotificationSerializer(serializers.ModelSerializer):
         return "Read" if obj.is_read else "Unread"
 
     def get_time_ago(self, obj):
-        """কতক্ষণ আগে তৈরি হয়েছে"""
+        """ """
         now = timezone.now()
         diff = now - obj.created_at
         seconds = diff.total_seconds()
@@ -230,7 +230,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 
 class NotificationCreateSerializer(serializers.ModelSerializer):
-    """Notification তৈরি করার জন্য Serializer"""
+    """Notification Serializer"""
     content_type = serializers.CharField(write_only=True, required=False)
     object_id = serializers.IntegerField(write_only=True, required=False)
 
@@ -262,7 +262,7 @@ class NotificationCreateSerializer(serializers.ModelSerializer):
 
 
 class NotificationMarkReadSerializer(serializers.Serializer):
-    """Notification Read মার্ক করার Serializer"""
+    """Notification Read Serializer"""
     notification_ids = serializers.ListField(
         child=serializers.IntegerField(),
         required=False,
@@ -276,11 +276,11 @@ class NotificationMarkReadSerializer(serializers.Serializer):
 
 
 # ========================================
-# ৪. ActivityLog Serializer
+# . ActivityLog Serializer
 # ========================================
 
 class ActivityLogSerializer(serializers.ModelSerializer):
-    """ActivityLog এর জন্য Serializer"""
+    """ActivityLog Serializer"""
     actor_username = serializers.ReadOnlyField(source='actor.username')
     actor_full_name = serializers.SerializerMethodField()
     action_type_display = serializers.ReadOnlyField(source='get_action_type_display')
@@ -334,7 +334,7 @@ class ActivityLogSerializer(serializers.ModelSerializer):
 
 
 class ActivityLogCreateSerializer(serializers.ModelSerializer):
-    """ActivityLog তৈরি করার জন্য Serializer"""
+    """ActivityLog Serializer"""
     content_type = serializers.CharField(write_only=True, required=False)
     object_id = serializers.IntegerField(write_only=True, required=False)
 
@@ -367,11 +367,11 @@ class ActivityLogCreateSerializer(serializers.ModelSerializer):
 
 
 # ========================================
-# ৫. Reaction Serializer
+# . Reaction Serializer
 # ========================================
 
 class ReactionSerializer(serializers.ModelSerializer):
-    """Reaction এর জন্য Serializer"""
+    """Reaction Serializer"""
     user_username = serializers.ReadOnlyField(source='user.username')
     user_full_name = serializers.SerializerMethodField()
     reaction_type_display = serializers.ReadOnlyField(source='get_reaction_type_display')
@@ -408,7 +408,7 @@ class ReactionSerializer(serializers.ModelSerializer):
 
 
 class ReactionCreateSerializer(serializers.ModelSerializer):
-    """Reaction তৈরি করার জন্য Serializer"""
+    """Reaction Serializer"""
     content_type = serializers.CharField(write_only=True)
     object_id = serializers.IntegerField(write_only=True)
 
@@ -431,7 +431,7 @@ class ReactionCreateSerializer(serializers.ModelSerializer):
         validated_data['content_type'] = content_type
         validated_data['object_id'] = object_id
 
-        # আগে থেকে রিঅ্যাকশন থাকলে আপডেট করুন
+        # 
         reaction, created = Reaction.objects.get_or_create(
             user=validated_data['user'],
             content_type=content_type,
@@ -445,7 +445,7 @@ class ReactionCreateSerializer(serializers.ModelSerializer):
 
 
 class ReactionStatsSerializer(serializers.Serializer):
-    """Reaction পরিসংখ্যান"""
+    """Reaction """
     reaction_type = serializers.CharField()
     reaction_type_display = serializers.CharField()
     count = serializers.IntegerField()
@@ -453,11 +453,11 @@ class ReactionStatsSerializer(serializers.Serializer):
 
 
 # ========================================
-# ৬. Dashboard Serializer
+# . DashboardSerializer
 # ========================================
 
 class CollaborationStatsSerializer(serializers.Serializer):
-    """Collaboration পরিসংখ্যান"""
+    """Collaboration """
     total_comments = serializers.IntegerField()
     total_mentions = serializers.IntegerField()
     total_notifications = serializers.IntegerField()
